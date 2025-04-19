@@ -1,0 +1,16 @@
+```json
+{
+  "features": [
+    "Comfort",
+    "Durability",
+    "Fit",
+    "Support",
+    "Material Quality",
+    "Breathability",
+    "Traction",
+    "Weight",
+    "Style",
+    "Value for Money"
+  ]
+}
+```

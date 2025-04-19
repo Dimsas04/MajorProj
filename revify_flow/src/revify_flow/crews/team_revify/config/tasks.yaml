@@ -1,0 +1,76 @@
+extract_features_task:
+  description: >
+    Given a product name or URL, identify the most important features users usually consider
+    when reviewing this type of product. Examples of features include Battery Life, Camera Quality,
+    Durability, Performance, etc.
+
+    Focus only on extracting **relevant product features**, without diving into sentiment or reviews.
+
+    Input: {product_input}
+
+    Output must be a valid JSON array of feature names.
+  expected_output: >
+    A JSON object containing a "features" array of key product features.
+  agent: feature_extractor
+
+
+analyze_feature_task:
+  description: >
+    For the feature: "{feature_name}", analyze the user reviews of the product from the perspective
+    of that feature only.
+
+    Reviews:
+    {reviews}
+
+    Output must be a valid JSON object containing:
+    - Feature name
+    - Sentiment
+    - Key points (with frequency count)
+    - Overall verdict
+
+    Example Output:
+    {
+      "feature": "Battery Life",
+      "sentiment": "Positive",
+      "key_points": [
+        {"point": "Lasts for 2 days", "frequency": 32},
+        {"point": "Charges quickly", "frequency": 18}
+      ],
+      "verdict": "Users are very satisfied with the battery life, highlighting long-lasting performance and fast charging."
+    }
+  expected_output: >
+    A valid JSON object summarizing the sentiment and key insights for the given feature.
+  agent: review_analysis_agent
+  context:
+    - extract_features_task
+
+# Task for Review Scraper Agent
+scrape_reviews_task:
+  description: >
+    Scrape product reviews for the product: "{product_url}"
+
+    Your task is to collect authentic and relevant reviews from e-commerce platforms
+    based on the product URL. Ensure to retrieve reviews that cover a wide range of user
+    experiences, including both positive and negative feedback.
+  expected_output: >
+    A list of product reviews in JSON format, including user ratings and review content.
+  agent: review_scraper
+
+# Task for Manager Agent
+coordinate_workflow_task:
+  description: >
+    Manage the workflow for Revify by coordinating between agents.
+
+    Your task is to:
+    1. Trigger the feature extraction task for the given product.
+    2. Initiate the review scraping process.
+    3. Delegate the review analysis to the review analysis agent based on the extracted features.
+    4. Compile the final results and ensure all agents perform their tasks successfully.
+  expected_output: >
+    A final report summarizing the product's feature-based review analysis, combining results
+    from the feature extraction and review analysis agents.
+  agent: manager_agent
+  context:
+    - extract_features_task
+    - scrape_reviews_task
+
