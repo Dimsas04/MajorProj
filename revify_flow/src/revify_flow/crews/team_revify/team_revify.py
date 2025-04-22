@@ -46,6 +46,20 @@ class TeamRevify():
             verbose=True
         )
 
+    @agent
+    def chunk_summary_agent(self) -> Agent:
+        """Creates the chunk summary agent for comprehensive review analysis"""
+        return Agent(
+            config=self.agents_config['chunk_summary_agent'],
+            verbose=True
+        )
+
+    @task
+    def comprehensive_review_analysis_task(self) -> Task:
+        """Task to analyze all features across all reviews"""
+        return Task(
+            config=self.tasks_config['comprehensive_review_analysis_task']
+        )
     @task
     def extract_features_task(self) -> Task:
         """Task to extract key product features"""
