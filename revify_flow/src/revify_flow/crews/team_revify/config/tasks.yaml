@@ -10,9 +10,32 @@ extract_features_task:
 
     Output must be a valid JSON array of feature names.
   expected_output: >
-    A JSON object containing a "features" array of key product features.
+    A JSON object containing a "features" array of key product features. **DO NOT INCLUDE BACKTICKS (```) OR THE WORD 'json' IN THE OUTPUT. THE OUTPUT SHOULD START AT OPENING CURLY BRACES AND END AT CLOSING CURLY BRACES **.
   agent: feature_extractor
 
+# New task for comprehensive review analysis
+comprehensive_review_analysis_task:
+  description: >
+    Analyze the product reviews across ALL the extracted features.
+
+    Features to analyze: {features}
+
+    Reviews: {reviews}
+
+    For EACH feature, provide a separate analysis section in your response.
+    
+    Your output must be a valid JSON array where each element is an analysis object for one feature.
+    
+    Each analysis object should contain:
+    - "feature": The name of the feature being analyzed
+    - "sentiment": Overall sentiment (Positive, Negative, Mixed, or Neutral)
+    - "key_points": Array of points mentioned in reviews with their frequency counts
+    - "verdict": A concise summary of user opinion on this feature
+  expected_output: >
+    A JSON array where each element analyzes one product feature based on user reviews.
+  agent: review_analysis_agent
+  context:
+    - extract_features_task
 
 analyze_feature_task:
   description: >

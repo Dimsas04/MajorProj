@@ -1,0 +1,72 @@
+[
+  {
+    "feature": "Display Quality",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "Glare-free screen (Kindle)": 5,
+        "Readability in sunlight (Kindle)": 3,
+        "Screen for video calls (Echo Show)": 7,
+        "Displaying song lyrics, recipes, news (Echo Show)": 6,
+        "HD display (Fire HD Tablets)": 4,
+        "Excellent screen clarity (Kindle Oasis)": 2,
+        "Sharp text (Kindle Voyage)": 1
+      }
+    ],
+    "verdict": "Display quality is generally praised, especially the Kindle's glare-free screen and the Echo Show's screen utility. Fire HD tablets are liked for HD display. Higher end kindles have exceptional screen quality."
+  },
+  {
+    "feature": "Battery Life",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "Long battery life (Kindle)": 4,
+        "Good battery life (Fire HD Tablets)": 2,
+        "Battery life with charging cover (Kindle Oasis)": 1,
+        "Slow charging times (Fire HD Tablets)": 1
+      }
+    ],
+    "verdict": "Battery life is a strong point for the Kindle E-Reader and is considered good on the Fire HD Tablets. "
+  },
+  {
+    "feature": "Storage Capacity",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "Large storage capacity (Kindle)": 1,
+        "Expandable storage (Fire HD Tablets)": 4,
+        "Limited storage (Fire HD Tablets)": 2
+      }
+    ],
+    "verdict": "Kindle E-Readers are appreciated for large storage. Fire HD tablets have expandable storage which is generally viewed as positive though some find the base storage limiting."
+  },
+  {
+    "feature": "Portability",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "Light and easy to use (Kindle)": 2,
+        "Fits better in my purse (Kindle)": 1,
+        "Portable (Fire HD Tablets)": 3,
+        "Portability (Amazon Tap)": 3,
+        "Lightweight design (Kindle Oasis)": 2
+      }
+    ],
+    "verdict": "Portability is a consistent positive for Kindle E-Readers, Fire HD Tablets, Amazon Tap and Kindle Oasis."
+  },
+  {
+    "feature": "Ease of Use",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "Easy to use (Echo Show)": 6,
+        "Ease of setup (Echo Plus)": 4,
+        "Easy to use (Fire HD Tablets)": 8,
+        "Easy to use for children (Fire HD Tablets)": 7,
+        "Easy to use for elderly (Echo Show, Fire HD Tablets)": 3,
+        "Easy to set up (Kindle Voyage)": 1
+      }
+    ],
+    "verdict": "Ease of use is a major strength across all devices, especially for the Echo Show, Fire HD Tablets (particularly for children and elderly users), and Echo Plus for smart home integration."
+  }
+]
