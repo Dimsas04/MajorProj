@@ -11,6 +11,16 @@ load_dotenv()
 username = os.getenv('NUMBER')
 password = os.getenv('PASSWORD')
 
+# Check if credentials are available
+if not username or not password:
+    print("⚠️ Error: Missing credentials in .env file")
+    print("Please ensure your .env file contains:")
+    print("NUMBER=your_email_or_phone_number")
+    print("PASSWORD=your_amazon_password")
+    sys.exit(1)
+else:
+    print(f"✓ Credentials loaded successfully (username: {username[:2]}...{username[-2:]})")
+
 # Set up the Selenium driver
 def setup_driver():
     chrome_options = Options()
@@ -123,3 +133,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

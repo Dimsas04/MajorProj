@@ -68,15 +68,27 @@ analyze_feature_task:
     - extract_features_task
 
 # Task for Review Scraper Agent
+# scrape_reviews_task:
+#   description: >
+#     Scrape product reviews for the product: "{product_url}"
+
+#     Your task is to collect authentic and relevant reviews from e-commerce platforms
+#     based on the product URL. Ensure to retrieve reviews that cover a wide range of user
+#     experiences, including both positive and negative feedback.
+#   expected_output: >
+#     A list of product reviews in JSON format, including user ratings and review content.
+#   agent: review_scraper
+
 scrape_reviews_task:
   description: >
     Scrape product reviews for the product: "{product_url}"
-
+    
     Your task is to collect authentic and relevant reviews from e-commerce platforms
-    based on the product URL. Ensure to retrieve reviews that cover a wide range of user
-    experiences, including both positive and negative feedback.
+    based on the product URL. Use the Amazon Scraper Tool to extract reviews from the provided URL.
+    
+    Specify the number of reviews to scrape (default is 50) and provide the product name if available.
   expected_output: >
-    A list of product reviews in JSON format, including user ratings and review content.
+    Path to a CSV file containing the scraped reviews with ratings and content.
   agent: review_scraper
 
 # Task for Manager Agent

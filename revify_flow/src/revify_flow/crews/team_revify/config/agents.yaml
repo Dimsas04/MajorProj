@@ -32,6 +32,7 @@ review_scraper:
   backstory: >
     You specialize in locating and scraping user-generated reviews online. You know how
     to retrieve the most relevant and useful reviews from e-commerce platforms for analysis.
+  tools: ["amazon_scraper_tool"]
   llm: gemini/gemini-2.0-flash
 
 # review_analysis_agent:

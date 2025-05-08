@@ -14,6 +14,8 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../.
 # Now use absolute import
 from src.revify_flow.crews.team_revify.team_revify import TeamRevify
 
+from src.revify_flow.tools.amazon_scraper_tool import AmazonScraperTool
+
 # Load environment variables
 load_dotenv()
 
@@ -330,9 +332,9 @@ def summarize_reviews_chunked(review_data, team, chunk_size=500):
 
 
 
+from litellm.exceptions import RateLimitError
+import time
 def review_analysis2():
-    import time
-    from litellm.exceptions import RateLimitError
     
     print("\n🚀 Starting Dynamic Feature-Based Review Analysis\n")
     product_input = input("Enter the product name or URL: ")
@@ -533,5 +535,234 @@ def review_analysis2():
         print("Raw output saved to 'output/feature_analysis_raw.txt'")
         return None
 
+def run_workflow():
+    """Run the full Revify workflow"""
+    print("\n🚀 Starting Revify - Product Review Analysis")
+    
+    # Get the product URL from the user
+    product_url = input("Enter the product URL: ")
+    product_name = input("Enter the product name (optional): ")
+    
+    # Create TeamRevify instance
+    team = TeamRevify()
+    
+    # 1. Extract product features
+    print("\n📋 Phase 1: Extracting product features...")
+    feature_agent = team.feature_extractor()
+    feature_task = team.extract_features_task()
+    
+    feature_crew = Crew(
+        agents=[feature_agent],
+        tasks=[feature_task],
+        process=Process.sequential,
+        verbose=True
+    )
+    
+    max_retries = 3
+    feature_raw = None
+    
+    for attempt in range(max_retries):
+        try:
+            print(f"\n⚙️ Running feature extraction (attempt {attempt+1}/{max_retries})...")
+            feature_result = feature_crew.kickoff(inputs={"product_input": product_url})
+            feature_raw = feature_result.raw
+            break
+        except RateLimitError as e:
+            print(f"\n⚠️ Rate limit hit during feature extraction (attempt {attempt+1}/{max_retries})")
+            if attempt < max_retries - 1:
+                wait_time = min(30, (2 ** attempt) * 5)
+                print(f"Waiting {wait_time} seconds before retry...")
+                time.sleep(wait_time)
+            else:
+                print("\n❌ Max retries reached for feature extraction.")
+                print(f"Error: {str(e)}")
+                return
+        except Exception as e:
+            print(f"\n❌ Unexpected error during feature extraction: {str(e)}")
+            return
+    
+    # Process feature extraction results
+    if not feature_raw:
+        print("\n❌ Failed to extract features.")
+        return
+        
+    extracted_json = extract_json_from_markdown(feature_raw)
+    
+    try:
+        # Parse the extracted JSON string
+        features_data = json.loads(extracted_json)
+        
+        # Extract the features list
+        if isinstance(features_data, dict) and "features" in features_data:
+            features = features_data["features"]
+        else:
+            features = features_data  # Assume it's already the list
+        
+        if not isinstance(features, list):
+            raise ValueError("Expected a list of features")
+            
+        # Limit to max 5 features to reduce API calls
+        if len(features) > 5:
+            print(f"\n⚠️ Limiting analysis to the first 5 features to avoid rate limits")
+            features = features[:5]
+            
+        print(f"\n✅ Extracted {len(features)} features:")
+        for i, feature in enumerate(features):
+            print(f"  {i+1}. {feature}")
+    except Exception as e:
+        print(f"❌ Failed to parse features: {str(e)}")
+        print(f"Raw output: {feature_raw}")
+        return
+    
+    # 2. Scrape product reviews
+    print("\n📋 Phase 2: Scraping product reviews...")
+    review_scraper = team.review_scraper()
+    scrape_reviews_task = team.scrape_reviews_task()
+
+    scrape_crew = Crew(
+        agents=[review_scraper],
+        tasks=[scrape_reviews_task],
+        process=Process.sequential,
+        verbose=True
+    )
+    
+    max_retries = 3
+    scrape_result = None
+    
+    for attempt in range(max_retries):
+        try:
+            print(f"\n⚙️ Running review scraping (attempt {attempt+1}/{max_retries})...")
+            
+            # Pass product name if available
+            if product_name:
+                scrape_result = scrape_crew.kickoff(inputs={
+                    "product_url": product_url,
+                    "product_name": product_name
+                })
+            else:
+                scrape_result = scrape_crew.kickoff(inputs={"product_url": product_url})
+                
+            break
+        except Exception as e:
+            print(f"\n❌ Error during review scraping: {str(e)}")
+            if attempt < max_retries - 1:
+                wait_time = min(30, (2 ** attempt) * 5)
+                print(f"Waiting {wait_time} seconds before retry...")
+                time.sleep(wait_time)
+            else:
+                print("\n❌ Max retries reached for review scraping.")
+                return
+    
+    # 3. Load and process reviews
+    try:
+        df = pd.read_csv("scraped_reviews.csv")
+        if df.empty:
+            print("❌ No reviews found.")
+            return
+        
+        df_filtered = df[['name', 'brand', 'reviews.rating', 'reviews.title', 'reviews.text']]
+        review_dicts = df_filtered.to_dict(orient='records')
+        
+        print(f"📋 Loaded {len(review_dicts)} reviews for analysis")
+    except Exception as e:
+        print(f"❌ Error loading reviews: {str(e)}")
+        return
+    
+    # 4. Summarize reviews in chunks
+    chunk_summaries = summarize_reviews_chunked(review_dicts, team, chunk_size=200)
+    reviews_input = "\n\n".join(chunk_summaries)
+    
+    # 5. Analyze reviews by feature
+    print("\n📋 Phase 3: Analyzing reviews by feature...")
+    review_agent = team.review_analysis_agent()
+    analysis_task = team.comprehensive_review_analysis_task()
+    
+    analysis_crew = Crew(
+        agents=[review_agent],
+        tasks=[analysis_task],
+        process=Process.sequential,
+        verbose=True
+    )
+    
+    max_retries = 3
+    analysis_result = None
+    
+    for attempt in range(max_retries):
+        try:
+            if attempt > 0:
+                wait_time = min(60, (2 ** attempt) * 10)
+                print(f"\n⏳ Waiting {wait_time} seconds before attempt {attempt+1}...")
+                time.sleep(wait_time)
+            
+            print(f"\n⚙️ Running comprehensive feature analysis (attempt {attempt+1}/{max_retries})...")
+            result = analysis_crew.kickoff(inputs={
+                "features": ", ".join(features),
+                "reviews": reviews_input
+            })
+            
+            analysis_result = result
+            break
+        except RateLimitError as e:
+            print(f"\n⚠️ Rate limit hit during review analysis (attempt {attempt+1}/{max_retries})")
+            if attempt < max_retries - 1:
+                print(f"Will retry soon...")
+            else:
+                print("\n❌ Max retries reached for review analysis.")
+                print(f"Error: {str(e)}")
+                return
+        except Exception as e:
+            print(f"\n❌ Unexpected error during review analysis: {str(e)}")
+            if attempt < max_retries - 1:
+                print("Will retry...")
+            else:
+                return
+    
+    if not analysis_result:
+        print("\n❌ Failed to complete review analysis.")
+        return
+        
+    try:
+        # Get raw result
+        raw_output = analysis_result.raw
+        
+        # Extract JSON from markdown if needed
+        json_str = extract_json_from_markdown(raw_output)
+        
+        # Parse the JSON
+        analysis_results = json.loads(json_str)
+        
+        # Save the results
+        os.makedirs("output", exist_ok=True)
+        with open("output/feature_analysis.json", "w", encoding="utf-8") as f:
+            json.dump(analysis_results, f, indent=2, ensure_ascii=False)
+        
+        # Print summary
+        print("\n✅ Analysis complete!")
+        print(f"\nAnalyzed {len(analysis_results)} features")
+        
+        # Show a brief summary for each feature
+        for i, analysis in enumerate(analysis_results):
+            feature = analysis.get("feature", "Unknown")
+            sentiment = analysis.get("sentiment", "Unknown")
+            verdict = analysis.get("verdict", "No verdict provided")
+            
+            print(f"\n{i+1}. {feature}: {sentiment}")
+            print(f"   {verdict[:100]}..." if len(verdict) > 100 else f"   {verdict}")
+        
+        print("\nDetailed results saved to 'output/feature_analysis.json'")
+        return analysis_results
+    
+    except Exception as e:
+        print(f"❌ Error processing analysis results: {e}")
+        print(f"Raw output: {raw_output}")
+        
+        # Still try to save the raw output for debugging
+        with open("output/feature_analysis_raw.txt", "w", encoding="utf-8") as f:
+            f.write(str(raw_output))
+        
+        print("Raw output saved to 'output/feature_analysis_raw.txt'")
+        return None
+
 if __name__ == "__main__":
-    review_analysis2()
+    # review_analysis2()
+    run_workflow()
