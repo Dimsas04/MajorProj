@@ -74,16 +74,16 @@ def scrape_reviews(url):
     sign_in_button.click()
     
     # time.sleep(5000)
-    a=1
+    a=7
+    review_titles = []
+    reviews = []
+    ratings=[]
     while(a!=0):
         a-=1
-        time.sleep(10)
+        time.sleep(2)
 
 
         tables = driver.page_source
-        review_titles = []
-        reviews = []
-        ratings=[]
 
         soup = BeautifulSoup(tables, 'html.parser')
         with open('amazon_reviews_page.txt', 'w', encoding='utf-8') as f:
