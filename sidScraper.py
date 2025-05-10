@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 import time
 from dotenv import load_dotenv
 import os
+from amazoncaptcha import AmazonCaptcha
 load_dotenv()
 username = os.getenv('NUMBER')
 password = os.getenv('PASSWORD')
@@ -45,6 +46,27 @@ def scrape_reviews(url):
     data = []
 
     driver.get(url)
+    
+    captcha_img = WebDriverWait(driver, 20).until(
+        EC.presence_of_element_located((By.XPATH, "/html/body/div/div[1]/div[3]/div/div/form/div[1]/div/div/div[1]/img"))
+    )
+    img_src = captcha_img.get_attribute('src')
+    driver.execute_script(f"window.open('{img_src}', '_blank');")
+    driver.switch_to.window(driver.window_handles[-1])
+    time.sleep(1)
+    with open('captcha.jpeg', 'wb') as file:
+        file.write(driver.find_element(By.TAG_NAME, 'img').screenshot_as_png)
+    driver.close()
+    driver.switch_to.window(driver.window_handles[0])
+    captcha = AmazonCaptcha('captcha.jpeg')
+    solution = captcha.solve()
+    
+    captcha_input = WebDriverWait(driver, 20).until(
+        EC.presence_of_element_located((By.XPATH, "/html/body/div/div[1]/div[3]/div/div/form/div[1]/div/div/div[2]/input"))
+    )
+    captcha_input.send_keys(solution)
+    captcha_input.submit()
+    
 
         # Wait and click on the "See all reviews" link
     WebDriverWait(driver, 20).until(
@@ -52,6 +74,7 @@ def scrape_reviews(url):
     ).click()
     
     # time.sleep(3000)
+    # Wait for the captcha image and download it
     # Wait for email input field and enter email
     email_input = WebDriverWait(driver, 20).until(
         EC.presence_of_element_located((By.ID, "ap_email_login"))
