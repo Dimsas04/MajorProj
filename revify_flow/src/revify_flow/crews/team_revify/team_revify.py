@@ -14,24 +14,9 @@ from crewai.project import tool
 @CrewBase
 class TeamRevify():
     """TeamRevify crew for product review analysis"""
-
-    # At the top, initialize your tools
-    # ✅ Define the tool mapping at the class level
-    
-    # def __init__(self):
-    #     # Initialize the base class
-    #     super().__init__()
-        
-    #     # Create tool instances
-    #     # self.amazon_tool = AmazonScraperTool()
-    #     # self.tools_config = {
-    #     #     "amazon_scraper_tool": self.amazon_tool
-    #     # }
-    #     self.tool_classes = {
-    #         "amazon_scraper_tool": AmazonScraperTool
-    #     }
     def __init__(self):
         super().__init__()
+        self._scraper_tool = AmazonScraperTool()
     
     agents: List[BaseAgent]
     tasks: List[Task]
@@ -57,6 +42,7 @@ class TeamRevify():
         """Creates the review scraping agent"""
         return Agent(
             config=self.agents_config['review_scraper'],
+            tools=[self._scraper_tool],
             verbose=True
         )
 
@@ -93,9 +79,20 @@ class TeamRevify():
     def scrape_reviews_task(self) -> Task:
         """Task to scrape reviews from the provided product URL"""
         return Task(
-            description="Scrape user reviews from the provided product URL",
+            description="""
+            Scrape user reviews for the product using the following details:
+
+            - Product URL: {product_url}
+            - Number of reviews to scrape: {target_reviews}
+            - Product name (optional): {product_name}
+
+            IMPORTANT:
+            1. Use EXACTLY the product_url provided without changing the domain.
+            2. If it contains 'amazon.in', keep it as 'amazon.in' - do not change to 'amazon.com'.
+            3. Make sure to use the amazon_scraper_tool to perform the scraping.
+            """,
             agent=self.review_scraper(),
-            expected_output="A collection of user reviews with ratings"
+            expected_output="A collection of user reviews with ratings",
         )
     
     @task
@@ -121,14 +118,7 @@ class TeamRevify():
     @tool
     def amazon_scraper_tool(self):
         """Tool for scraping Amazon product reviews"""
-        return AmazonScraperTool()
-    
-    # Create a getter for the tool
-    # @property
-    # def tools(self):
-    #     return {
-    #         "amazon_scraper_tool": self.amazon_tool
-    #     }
+        return self._scraper_tool
 
     @crew
     def crew(self) -> Crew:

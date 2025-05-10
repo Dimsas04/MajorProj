@@ -3,4 +3,15 @@ __pycache__/
 lib/
 preprocessing.ipynb
 reviews.csv
+amazon_scraper.log
+initial_page.html
+reviews_page_1.html
+reviews_page_2.html
+reviews_page_3.html
+reviews_page_4.html
+reviews_page_5.html
+revify_debug.log
+scraped_reviews.csv
+reviews_cleaned.csv
+
 

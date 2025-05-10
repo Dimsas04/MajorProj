@@ -331,6 +331,7 @@ def summarize_reviews_chunked(review_data, team, chunk_size=500):
     return summaries
 
 
+import litellm
 
 from litellm.exceptions import RateLimitError
 import time
@@ -390,6 +391,7 @@ def review_analysis2():
             else:
                 print("\n❌ Max retries reached for feature extraction.")
                 print(f"Error: {str(e)}")
+                litellm._turn_on_debug()
                 return
         except Exception as e:
             print(f"\n❌ Unexpected error during feature extraction: {str(e)}")
@@ -535,6 +537,216 @@ def review_analysis2():
         print("Raw output saved to 'output/feature_analysis_raw.txt'")
         return None
 
+import logging
+import traceback
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[
+        logging.FileHandler("revify_debug.log"),
+        logging.StreamHandler(sys.stdout)
+    ]
+)
+
+logger = logging.getLogger("revify_debug")
+# Add the project root to Python path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
+
+def debug_scraper_tool():
+    """Debug function to test just the scraper tool directly"""
+    logger.info("Starting scraper tool debug")
+    
+    product_url = input("Enter the product URL to test scraping: ")
+    
+    try:
+        # Create the scraper tool directly
+        # amazon_tool = AmazonScraperTool
+        # # Run the tool directly with the URL
+        # result = amazon_tool._run(
+        #     url=product_url,
+        #     target_reviews=10,  # Reduced for testing
+        #     product_name="Debug Test Product"
+        # )
+
+        result = AmazonScraperTool._run(url=product_url, target_reviews=50, product_name="Debug Test Product")
+        
+        logger.info(f"Scraper tool result: {result}")
+        print(f"\n✅ Scraper tool result: {result}")
+        
+        # Check if CSV was created
+        if os.path.exists("scraped_reviews.csv"):
+            df = pd.read_csv("scraped_reviews.csv")
+            logger.info(f"CSV file created with {len(df)} reviews")
+            print(f"CSV file created with {len(df)} reviews")
+            print("\nFirst 3 reviews:")
+            for i, row in df.head(3).iterrows():
+                print(f"Title: {row['reviews.title']}")
+                print(f"Rating: {row['reviews.rating']}")
+                print(f"Text: {row['reviews.text'][:100]}...\n")
+        else:
+            logger.error("No CSV file was created!")
+            print("❌ No CSV file was created!")
+    
+    except Exception as e:
+        logger.error(f"Error in scraper tool: {str(e)}")
+        logger.error(traceback.format_exc())
+        print(f"❌ Error in scraper tool: {str(e)}")
+
+
+def debug_run_workflow():
+    """Debug version of run_workflow with additional logging and checks"""
+    logger.info("Starting debug version of run_workflow")
+    print("\n🚀 Starting Revify Debug - Product Review Analysis")
+    
+    # Get the product URL from the user
+    product_url = input("Enter the product URL: ")
+
+    # After getting the product_url from the user:
+    original_url = product_url
+
+    product_name = input("Enter the product name (optional): ")
+    
+    logger.info(f"Input URL: {product_url}")
+    logger.info(f"Input product name: {product_name}")
+    
+    # Create TeamRevify instance
+    team = TeamRevify()
+    logger.info("TeamRevify instance created")
+    
+    # 1. Extract product features
+    print("\n📋 Phase 1: Extracting product features...")
+    logger.info("Starting feature extraction phase")
+    
+    try:
+        feature_agent = team.feature_extractor()
+        feature_task = team.extract_features_task()
+        
+        feature_crew = Crew(
+            agents=[feature_agent],
+            tasks=[feature_task],
+            process=Process.sequential,
+            verbose=True
+        )
+        
+        logger.info(f"Sending URL to feature extraction: {product_url}")
+        feature_result = feature_crew.kickoff(inputs={"product_input": product_url})
+        feature_raw = feature_result.raw
+        
+        logger.info("Feature extraction completed")
+        logger.info(f"Raw feature result: {feature_raw}")
+        
+        # Process feature extraction results
+        extracted_json = extract_json_from_markdown(feature_raw)
+        logger.info(f"Extracted JSON: {extracted_json}")
+        
+        features_data = json.loads(extracted_json)
+        
+        # Extract the features list
+        if isinstance(features_data, dict) and "features" in features_data:
+            features = features_data["features"]
+        else:
+            features = features_data  # Assume it's already the list
+        
+        logger.info(f"Extracted features: {features}")
+        print(f"\n✅ Extracted features: {features}")
+    
+    except Exception as e:
+        logger.error(f"Error in feature extraction: {str(e)}")
+        logger.error(traceback.format_exc())
+        print(f"\n❌ Error in feature extraction: {str(e)}")
+        return
+    
+    # 2. Debug the scraper directly
+    print("\n📋 Phase 2: Testing scraper tool directly...")
+    logger.info("Testing scraper tool directly")
+    
+    try:
+        # Create the scraper tool directly
+        amazon_tool= team.amazon_scraper_tool()
+        
+        # Create an input dictionary
+        # input_dict = {
+        #     "url": product_url,
+        #     "target_reviews": 10,
+        #     "product_name": product_name if product_name else "Test Product"
+        # }
+        # Run the tool directly with the URL
+        direct_result = amazon_tool._run(
+            url=product_url,
+            target_reviews=10,  # Reduced for testing
+            product_name=product_name if product_name else "Test Product"
+        )
+        # direct_result = amazon_tool._run(input_dict)
+        
+        logger.info(f"Direct scraper result: {direct_result}")
+        print(f"\n✅ Direct scraper result: {direct_result}")
+        
+    except Exception as e:
+        logger.error(f"Error in direct scraper test: {str(e)}")
+        logger.error(traceback.format_exc())
+        print(f"\n❌ Error in direct scraper test: {str(e)}")
+    
+    # 3. Now try through the agent system
+    print("\n📋 Phase 3: Testing scraper through agent system...")
+    logger.info("Testing scraper through agent system")
+    
+    try:
+        review_scraper = team.review_scraper()
+        scrape_reviews_task = team.scrape_reviews_task()
+
+        scrape_crew = Crew(
+            agents=[review_scraper],
+            tasks=[scrape_reviews_task],
+            process=Process.sequential,
+            verbose=True
+        )
+        
+        logger.info(f"Sending URL to scrape crew: {product_url}")
+        print(f"Original URL being sent: {product_url}")
+        
+        # Just before scrape_crew.kickoff():
+        print(f"\n🔍 VERIFICATION: The exact URL that should be used is: {original_url}")
+        # Pass product name if available
+        scrape_result = scrape_crew.kickoff(inputs={
+            "product_url": product_url, 
+            "target_reviews": 10,  # Reduced for testing
+            "product_name": product_name if product_name else "Test Product"
+        })
+
+        logger.info("Scraper crew completed")
+        logger.info(f"Scraper result: {scrape_result.raw}")
+        print("\n✅ Scraper crew completed")
+        # After scraping is done:
+        print(f"\n🔍 Checking if original URL {original_url} was preserved during scraping...")
+    
+    except Exception as e:
+        logger.error(f"Error in scraper crew: {str(e)}")
+        logger.error(traceback.format_exc())
+        print(f"\n❌ Error in scraper crew: {str(e)}")
+    
+    # Check if reviews were successfully scraped
+    if os.path.exists("scraped_reviews.csv"):
+        try:
+            df = pd.read_csv("scraped_reviews.csv")
+            logger.info(f"Found scraped_reviews.csv with {len(df)} reviews")
+            print(f"\n✅ Found scraped_reviews.csv with {len(df)} reviews")
+            
+            # Only proceed if we have reviews
+            if len(df) > 0:
+                # Continue with the rest of the workflow...
+                print("\n✅ Debug workflow completed successfully!")
+                logger.info("Debug workflow completed successfully")
+            else:
+                print("\n⚠️ No reviews were scraped. Stopping workflow.")
+                logger.warning("No reviews were scraped. Stopping workflow.")
+        except Exception as e:
+            logger.error(f"Error reading scraped_reviews.csv: {str(e)}")
+            print(f"\n❌ Error reading scraped_reviews.csv: {str(e)}")
+    else:
+        logger.error("scraped_reviews.csv file not found")
+        print("\n❌ scraped_reviews.csv file not found. Scraping failed.")
+
 def run_workflow():
     """Run the full Revify workflow"""
     print("\n🚀 Starting Revify - Product Review Analysis")
@@ -632,16 +844,16 @@ def run_workflow():
     for attempt in range(max_retries):
         try:
             print(f"\n⚙️ Running review scraping (attempt {attempt+1}/{max_retries})...")
+            # url = format_amazon_url(product_url)
             
             # Pass product name if available
-            if product_name:
-                scrape_result = scrape_crew.kickoff(inputs={
+            scrape_result = scrape_crew.kickoff(inputs={
                     "product_url": product_url,
-                    "product_name": product_name
+                    "target_reviews": 50,  # Reduced for testing
+                    "product_name": product_name if product_name else "Test Product"
                 })
-            else:
-                scrape_result = scrape_crew.kickoff(inputs={"product_url": product_url})
-                
+            
+            print("URL of the product is: ", product_url)
             break
         except Exception as e:
             print(f"\n❌ Error during review scraping: {str(e)}")
@@ -669,7 +881,7 @@ def run_workflow():
         return
     
     # 4. Summarize reviews in chunks
-    chunk_summaries = summarize_reviews_chunked(review_dicts, team, chunk_size=200)
+    chunk_summaries = summarize_reviews_chunked(review_dicts, team, chunk_size=10)
     reviews_input = "\n\n".join(chunk_summaries)
     
     # 5. Analyze reviews by feature
@@ -766,3 +978,15 @@ def run_workflow():
 if __name__ == "__main__":
     # review_analysis2()
     run_workflow()
+# if __name__ == "__main__":
+#     print("\n🔍 Revify Debug Tool")
+#     print("1. Test Scraper Tool directly")
+#     print("2. Run Debug Workflow")
+    
+#     choice = input("\nSelect option (1-2): ")
+#     if choice == "1":
+#         debug_scraper_tool()
+#     elif choice == "2":
+#         debug_run_workflow()
+#     else:
+#         print("❌ Invalid option selected.")

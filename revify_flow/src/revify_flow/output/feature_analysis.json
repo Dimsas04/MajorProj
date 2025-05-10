@@ -1,105 +1,294 @@
 [
   {
+    "feature": "Sound Quality",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "Very good": 4
+      },
+      {
+        "Nice bass": 2
+      },
+      {
+        "Clear sound": 2
+      },
+      {
+        "Good music listening experience": 1
+      },
+      {
+        "Excellent earbuds": 1
+      },
+      {
+        "Great lows mids and highs": 1
+      },
+      {
+        "Dolby Atmos": 1
+      },
+      {
+        "360° audio": 1
+      },
+      {
+        "Not harsh": 1
+      },
+      {
+        "No excess boomy/ugly bass": 1
+      },
+      {
+        "Everything is adequate": 1
+      }
+    ],
+    "verdict": "Sound quality is generally praised, with clear sound and good bass being the most frequently mentioned positive aspects."
+  },
+  {
+    "feature": "Battery Life",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "Very good": 2
+      },
+      {
+        "Good": 1
+      },
+      {
+        "7 hours of playback with 10 minutes of charge": 1
+      },
+      {
+        "Never felt I was going out of charge": 1
+      }
+    ],
+    "verdict": "Battery life is consistently rated as good, with users reporting satisfactory performance and fast charging capabilities."
+  },
+  {
     "feature": "Comfort",
     "sentiment": "Mixed",
     "key_points": [
       {
-        "point": "Lightweight design contributes to comfortable reading",
-        "count": 12
+        "Good": 2
       },
       {
-        "point": "Easy to hold for extended periods",
-        "count": 5
+        "Need to change the eartips if uncomfortable": 1
       },
       {
-        "point": "Size can be too small for some users, impacting reading comfort",
-        "count": 2
+        "Doesn't fit properly in one ear": 1
       },
       {
-        "point": "Screen is easy on the eyes",
-        "count": 3
-      },
-      {
-        "point": "Lack of backlight can cause discomfort in low-light conditions",
-        "count": 8
+        "Fitting is good": 1
       }
     ],
-    "verdict": "The Kindle's lightweight design and screen technology contribute to comfortable reading for many. However, the lack of backlight and small size may detract from the experience for some users."
+    "verdict": "Comfort receives mixed reviews, with some users finding the earbuds comfortable while others experience fit issues."
+  },
+  {
+    "feature": "Connectivity",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "Bluetooth 5.3 works pretty well": 1
+      },
+      {
+        "Losing the connection in outdoor": 1
+      },
+      {
+        "Bluetooth connectivity is super great": 1
+      },
+      {
+        "Google fast pairing": 1
+      }
+    ],
+    "verdict": "Connectivity is generally good, especially Bluetooth connectivity, although some users experience connection issues in outdoor environments."
   },
   {
     "feature": "Durability",
-    "sentiment": "Mixed",
+    "sentiment": "Negative",
     "key_points": [
       {
-        "point": "Generally considered reliable",
-        "count": 3
+        "Lid might break if I push it a bit too hard": 1
       },
       {
-        "point": "Some reports of battery issues and device failure within a few months",
-        "count": 2
+        "Case feels a bit loose": 1
       },
       {
-        "point": "One review mentions a replacement due to device malfunction",
-        "count": 1
+        "Changed the headphones three times": 1
       }
     ],
-    "verdict": "While generally reliable, there are some concerns about the Kindle's long-term durability, with a few reports of battery problems and device failures."
+    "verdict": "Durability is a concern, particularly regarding the case build quality, with some users reporting issues with the lid and overall feel."
   },
   {
-    "feature": "Material Quality",
+    "feature": "Noise Cancellation",
     "sentiment": "Positive",
     "key_points": [
       {
-        "point": "Build quality is generally satisfactory",
-        "count": 3
+        "Best part": 1
       },
       {
-        "point": "Feels like reading a real book",
-        "count": 2
+        "Soo good": 1
       },
       {
-        "point": "Consistent quality across Kindle products",
-        "count": 1
+        "Very nice ANC": 1
+      },
+      {
+        "Reduces almost 90 percent of the sound": 1
+      },
+      {
+        "Good to remove fan/wind/car noises": 1
+      },
+      {
+        "ANC is promising": 1
       }
     ],
-    "verdict": "The Kindle is generally perceived to have good material and build quality, contributing to a pleasant reading experience."
+    "verdict": "Noise cancellation is highly praised for effectively reducing ambient noise, although some limitations are noted for certain types of sounds."
   },
   {
-    "feature": "Fit",
+    "feature": "Spatial Audio",
     "sentiment": "Positive",
     "key_points": [
       {
-        "point": "Convenient size for portability",
-        "count": 10
+        "Sounds really good": 1
       },
       {
-        "point": "Fits well in the hand",
-        "count": 3
-      },
-      {
-        "point": "Easy to carry in a purse or bag",
-        "count": 4
+        "360 degree spatial sound": 2
       }
     ],
-    "verdict": "The Kindle's compact size and ergonomic design make it easy to hold and carry, enhancing its portability and convenience."
+    "verdict": "Spatial Audio provides immersive sound experience."
   },
   {
-    "feature": "Support",
+    "feature": "Charging Speed",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "Fast Charging": 1
+      },
+      {
+        "Charging time is good": 1
+      }
+    ],
+    "verdict": "Charging Speed is fast and good."
+  },
+  {
+    "feature": "Water Resistance",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "IP55 rating": 1
+      },
+      {
+        "Resistant from water splashes/sweat and light amount of dust": 1
+      }
+    ],
+    "verdict": "Water resistance is resistant from water splashes/sweat and light amount of dust."
+  },
+  {
+    "feature": "Microphone Quality (for calls)",
     "sentiment": "Mixed",
     "key_points": [
       {
-        "point": "Customer service experience varies, with some positive and some negative reports",
-        "count": 2
+        "Mic quality is fine": 1
       },
       {
-        "point": "Easy access to books and downloads",
-        "count": 5
+        "Mic doesn't listen to your voice correctly in noisy area with ANC on": 1
       },
       {
-        "point": "Software updates improve functionality",
-        "count": 1
+        "Voice is little heavy going to the other side": 1
+      },
+      {
+        "Mic is way too op": 1
       }
     ],
-    "verdict": "User experience with Amazon's customer support seems inconsistent. However, the Kindle's software and ecosystem generally provide good support for accessing and managing content."
+    "verdict": "Mic quality is fine, but sometimes the mic doesn't listen to your voice correctly."
+  },
+  {
+    "feature": "Design and Style",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "Sleek design": 1
+      },
+      {
+        "Looks absolutely professional": 1
+      },
+      {
+        "Nice looking": 1
+      },
+      {
+        "Small, cute, neat": 1
+      },
+      {
+        "Premium, sturdy and good build quality case": 1
+      }
+    ],
+    "verdict": "Users appreciate the design and style of the earbuds, describing them as sleek, professional-looking, and well-built."
+  },
+  {
+    "feature": "Ease of Use",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "Touch controls are very precise and good": 1
+      },
+      {
+        "Touch buttons beautifully sense my touch": 1
+      },
+      {
+        "Button Control is quite limited": 1
+      }
+    ],
+    "verdict": "The product is easy to use, with precise and responsive touch controls."
+  },
+  {
+    "feature": "Price",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "Value for money": 3
+      },
+      {
+        "Best earpods under Rs.2500": 1
+      },
+      {
+        "Under 1899": 1
+      },
+      {
+        "For this price point and quality these are awesome": 1
+      }
+    ],
+    "verdict": "The earbuds are frequently described as offering good value for money, especially when purchased on sale."
+  },
+  {
+    "feature": "Bluetooth Version",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "Bluetooth 5.3": 2
+      }
+    ],
+    "verdict": "The earbuds use Bluetooth 5.3, which is considered a positive feature."
+  },
+  {
+    "feature": "Latency (for gaming/video)",
+    "sentiment": "Negative",
+    "key_points": [
+      {
+        "Not recommended for gaming": 1
+      },
+      {
+        "Game mode reduces latency significantly": 1
+      }
+    ],
+    "verdict": "While there's a game mode to reduce latency, the earbuds are generally not recommended for gaming."
+  },
+  {
+    "feature": "Portability",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "Size of the case is very comfortable": 1
+      },
+      {
+        "Fits in palm": 1
+      },
+      {
+        "Surprisingly light weight": 1
+      }
+    ],
+    "verdict": "The earbuds are portable."
   }
 ]
