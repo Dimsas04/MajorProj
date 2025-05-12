@@ -1,0 +1,85 @@
+[
+  {
+    "feature": "Comfort",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "comfortable": 4
+      },
+      {
+        "zero comfort": 1
+      },
+      {
+        "not smooth": 1
+      },
+      {
+        "cushion effect": 1
+      },
+      {
+        "uneasy to wear for longer periods": 1
+      }
+    ],
+    "verdict": "Comfort is a point of contention. Some users find the loafers comfortable, particularly noting a 'cushion effect,' while others report discomfort, especially during extended wear or lack of smoothness."
+  },
+  {
+    "feature": "Fit",
+    "sentiment": "Neutral",
+    "key_points": [
+      {
+        "different from picture": 2
+      },
+      {
+        "sizing seems accurate": 1
+      }
+    ],
+    "verdict": "Fit is generally accurate according to some, but the actual product may differ slightly from the pictures."
+  },
+  {
+    "feature": "Durability",
+    "sentiment": "Negative",
+    "key_points": [
+      {
+        "not durable": 2
+      },
+      {
+        "tough material": 1
+      },
+      {
+        "top-notch quality": 1
+      },
+      {
+        "falling apart": 1
+      }
+    ],
+    "verdict": "Durability is a significant concern. Several reviewers report the shoes are not durable, with some even stating they fell apart quickly. There are a few contrasting opinions claiming good quality."
+  },
+  {
+    "feature": "Style",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "look premium": 1
+      },
+      {
+        "not looking good": 1
+      },
+      {
+        "nice product": 2
+      }
+    ],
+    "verdict": "The style receives mixed feedback. Some find the loafers to have a premium look and consider them stylish, while others disagree."
+  },
+  {
+    "feature": "Sole quality",
+    "sentiment": "Negative",
+    "key_points": [
+      {
+        "sole is very comfortable": 1
+      },
+      {
+        "durability of the sole": 1
+      }
+    ],
+    "verdict": "Sole quality has mixed reviews. One reviewer mentions a comfortable sole, while another criticizes its durability."
+  }
+]

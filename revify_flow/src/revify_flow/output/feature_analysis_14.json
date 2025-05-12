@@ -1,0 +1,93 @@
+[
+  {
+    "feature": "Durability",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "point": "Generally good quality",
+        "frequency": 4
+      },
+      {
+        "point": "Some reports of breaking after a few uses",
+        "frequency": 1
+      },
+      {
+        "point": "Sturdy",
+        "frequency": 2
+      }
+    ],
+    "verdict": "Durability is generally perceived as good, but some users have reported issues with the suitcase breaking, indicating potential quality control inconsistencies. Sturdiness is also mentioned."
+  },
+  {
+    "feature": "Storage Capacity",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "point": "Spacious",
+        "frequency": 1
+      },
+      {
+        "point": "Size smaller than described",
+        "frequency": 1
+      },
+      {
+        "point": "Actual volume less than expected",
+        "frequency": 1
+      },
+      {
+        "point": "Lack of internal pockets",
+        "frequency": 1
+      }
+    ],
+    "verdict": "Storage capacity is generally viewed positively in terms of spaciousness, though some users have noted that the actual size/volume may be less than expected, and the lack of internal pockets is a drawback."
+  },
+  {
+    "feature": "Weight",
+    "sentiment": "Negative",
+    "key_points": [
+      {
+        "point": "Weight higher than advertised",
+        "frequency": 1
+      },
+      {
+        "point": "Suitable for light travel",
+        "frequency": 1
+      }
+    ],
+    "verdict": "Concerns exist regarding the actual weight of the suitcase, with some users reporting it being higher than advertised. It's considered suitable for light travel"
+  },
+  {
+    "feature": "Maneuverability (wheels)",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "point": "Smooth-rolling wheels",
+        "frequency": 3
+      }
+    ],
+    "verdict": "Maneuverability is generally considered a strong point, with users frequently praising the smooth-rolling wheels."
+  },
+  {
+    "feature": "Material Quality (shell)",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "point": "Generally good quality",
+        "frequency": 3
+      },
+      {
+        "point": "Desire for better scratch resistance",
+        "frequency": 1
+      },
+      {
+        "point": "Material quality could be improved",
+        "frequency": 1
+      },
+      {
+        "point": "Appreciate the polypropylene material",
+        "frequency": 1
+      }
+    ],
+    "verdict": "Material quality receives mixed reviews. While many acknowledge good quality, some desire better scratch resistance, implying it needs improvement. Some appreciate the Polypropylene material."
+  }
+]

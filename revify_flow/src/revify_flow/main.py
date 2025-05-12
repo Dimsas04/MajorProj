@@ -753,7 +753,7 @@ def run_workflow():
     
     # Get the product URL from the user
     product_url = input("Enter the product URL: ")
-    product_name = input("Enter the product name (optional): ")
+    product_name = input("Enter the product type (optional): ")
     
     # Create TeamRevify instance
     team = TeamRevify()
@@ -945,7 +945,16 @@ def run_workflow():
         
         # Save the results
         os.makedirs("output", exist_ok=True)
-        with open("output/feature_analysis.json", "w", encoding="utf-8") as f:
+        
+        # Check if file already exists and increment the filename if necessary
+        base_filename = "output/feature_analysis.json"
+        filename = base_filename
+        counter = 1
+        while os.path.exists(filename):
+            filename = f"output/feature_analysis_{counter}.json"
+            counter += 1
+        
+        with open(filename, "w", encoding="utf-8") as f:
             json.dump(analysis_results, f, indent=2, ensure_ascii=False)
         
         # Print summary

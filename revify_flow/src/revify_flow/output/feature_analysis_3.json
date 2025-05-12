@@ -1,0 +1,109 @@
+[
+  {
+    "feature": "Sound Quality",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "good bass": 1
+      },
+      {
+        "decent sound quality": 2
+      },
+      {
+        "acceptable but not exceptional": 2
+      },
+      {
+        "very bad sound quality": 1
+      },
+      {
+        "noise and low volume": 1
+      },
+      {
+        "audio clarity at high volumes": 1
+      }
+    ],
+    "verdict": "Sound quality receives mixed reviews. While some users appreciate the bass and find the sound decent, especially for the price, others report poor sound quality, noise, and low volume."
+  },
+  {
+    "feature": "Battery Life",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "good battery life": 4
+      },
+      {
+        "impressive battery life": 1
+      },
+      {
+        "amazing battery life": 1
+      }
+    ],
+    "verdict": "Battery life is consistently praised as a strong positive, with reviewers describing it as good, impressive, and even amazing."
+  },
+  {
+    "feature": "Comfort",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "ear pain and discomfort": 2
+      },
+      {
+        "comfortable fit for many users": 1
+      },
+      {
+        "suitable for long periods of use": 1
+      },
+      {
+        "not very comfortable": 1
+      },
+      {
+        "designed for small ears": 1
+      }
+    ],
+    "verdict": "Comfort is a point of contention. While some users find the headphones comfortable for extended use, others report ear pain and discomfort, particularly those with larger ears."
+  },
+  {
+    "feature": "Noise Cancellation",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "adequate noise cancellation": 1
+      },
+      {
+        "not exceptional": 1
+      },
+      {
+        "effective noise isolation": 1
+      },
+      {
+        "noise cancellation as a positive feature": 1
+      },
+      {
+        "decent noise canceling": 1
+      }
+    ],
+    "verdict": "Noise cancellation is generally considered adequate or decent but not exceptional. Some users find it effective, while others don't consider it a standout feature."
+  },
+  {
+    "feature": "Bluetooth Connectivity",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "dual connectivity feature is appreciated": 1
+      },
+      {
+        "bluetooth connectivity problems": 1
+      },
+      {
+        "automatic disconnection": 1
+      },
+      {
+        "bluetooth connection might a lil bit slow": 1
+      },
+      {
+        "bluetooth range": 1
+      }
+    ],
+    "verdict": "Bluetooth connectivity receives mixed feedback. While the dual connectivity feature is appreciated, some users report connectivity problems and disconnections."
+  }
+]

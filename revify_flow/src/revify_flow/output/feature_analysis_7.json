@@ -1,0 +1,252 @@
+[
+  {
+    "feature": "Processor performance",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "point": "Praised for gaming",
+        "count": 4
+      },
+      {
+        "point": "Good for video editing and design work (DaVinci Resolve, Premiere Pro, Revit, AutoCAD)",
+        "count": 1
+      },
+      {
+        "point": "Fast processing speed",
+        "count": 1
+      },
+      {
+        "point": "Freezing and crashing (CAD, Chrome, Excel)",
+        "count": 1
+      },
+      {
+        "point": "Good for daily tasks",
+        "count": 1
+      }
+    ],
+    "verdict": "Generally positive, excelling in gaming and demanding applications. However, some users reported freezing and crashing issues."
+  },
+  {
+    "feature": "RAM capacity",
+    "sentiment": "Neutral",
+    "key_points": [
+      {
+        "point": "Not explicitly mentioned but implied to be adequate for gaming and demanding tasks",
+        "count": 1
+      }
+    ],
+    "verdict": "No explicit mentions, but implicitly sufficient for reported use cases."
+  },
+  {
+    "feature": "Storage capacity (SSD/HDD)",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "point": "Long boot times (potentially related to SSD)",
+        "count": 1
+      },
+      {
+        "point": "Hard disk expandability discrepancies",
+        "count": 1
+      }
+    ],
+    "verdict": "Mixed feedback, with some concerns about boot times and advertised specifications."
+  },
+  {
+    "feature": "Graphics card performance",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "point": "Good graphics for gaming",
+        "count": 2
+      },
+      {
+        "point": "Ryzen processors and RTX 3050 combination is good",
+        "count": 1
+      }
+    ],
+    "verdict": "Positive, particularly the RTX 3050 configuration for gaming."
+  },
+  {
+    "feature": "Display quality (resolution, brightness, color accuracy)",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "point": "Display quality is highlighted as a positive",
+        "count": 2
+      },
+      {
+        "point": "Display and RGB lighting are positives",
+        "count": 1
+      },
+      {
+        "point": "Display brightness is a con",
+        "count": 1
+      },
+      {
+        "point": "Lines on the display (defective unit)",
+        "count": 1
+      },
+      {
+        "point": "Screen easily damaged by keyboard marks",
+        "count": 1
+      }
+    ],
+    "verdict": "Generally positive, with good resolution and color. However, some concerns about brightness, damage susceptibility, and defects."
+  },
+  {
+    "feature": "Battery life",
+    "sentiment": "Negative",
+    "key_points": [
+      {
+        "point": "Battery drain is a significant problem",
+        "count": 1
+      },
+      {
+        "point": "Poor battery life",
+        "count": 3
+      },
+      {
+        "point": "Short battery life (around 2 hours)",
+        "count": 2
+      },
+      {
+        "point": "Short battery life (1-2 hours)",
+        "count": 1
+      },
+      {
+        "point": "Battery capacity is poor",
+        "count": 1
+      }
+    ],
+    "verdict": "Predominantly negative, with very short battery life being a major concern."
+  },
+  {
+    "feature": "Build quality and durability",
+    "sentiment": "Negative",
+    "key_points": [
+      {
+        "point": "Motherboard failure after 1.5 years",
+        "count": 1
+      },
+      {
+        "point": "Hardware quality and reliability concerns",
+        "count": 1
+      },
+      {
+        "point": "Motherboard failure shortly after warranty expired",
+        "count": 1
+      },
+      {
+        "point": "Received pre-registered or defective laptops",
+        "count": 1
+      }
+    ],
+    "verdict": "Negative sentiment due to reported hardware failures and quality issues."
+  },
+  {
+    "feature": "Keyboard and trackpad quality",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "point": "Issues with the touchpad",
+        "count": 1
+      },
+      {
+        "point": "Keypad and trackpad are good",
+        "count": 1
+      },
+      {
+        "point": "Keyboard light failure",
+        "count": 1
+      }
+    ],
+    "verdict": "Mixed feedback, with some users reporting issues with the touchpad and keyboard light while others find the keypad and trackpad good."
+  },
+  {
+    "feature": "Operating System",
+    "sentiment": "Neutral",
+    "key_points": [],
+    "verdict": "No specific mentions in the reviews."
+  },
+  {
+    "feature": "Port selection (USB, HDMI, etc.)",
+    "sentiment": "Neutral",
+    "key_points": [],
+    "verdict": "No specific mentions in the reviews."
+  },
+  {
+    "feature": "Screen Size",
+    "sentiment": "Neutral",
+    "key_points": [],
+    "verdict": "No specific mentions in the reviews."
+  },
+  {
+    "feature": "Weight and portability",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "point": "Weight is average",
+        "count": 1
+      },
+      {
+        "point": "Weight is heavy",
+        "count": 1
+      }
+    ],
+    "verdict": "Conflicting opinions on weight, with some finding it average and others considering it heavy."
+  },
+  {
+    "feature": "Cooling system performance",
+    "sentiment": "Negative",
+    "key_points": [
+      {
+        "point": "Heating issues, particularly near the hinge",
+        "count": 1
+      },
+      {
+        "point": "Overheating during gaming",
+        "count": 2
+      },
+      {
+        "point": "Recommend using cooling pads",
+        "count": 1
+      },
+      {
+        "point": "Heating issues when ambient temperature is high",
+        "count": 1
+      }
+    ],
+    "verdict": "Negative sentiment, with overheating being a common concern."
+  },
+  {
+    "feature": "Audio quality",
+    "sentiment": "Negative",
+    "key_points": [
+      {
+        "point": "Sound is a positive",
+        "count": 1
+      },
+      {
+        "point": "Quality of speakers is criticized",
+        "count": 1
+      },
+      {
+        "point": "Speakers are too quiet",
+        "count": 1
+      }
+    ],
+    "verdict": "Mixed to negative, with speaker quality and volume being criticized."
+  },
+  {
+    "feature": "Webcam quality",
+    "sentiment": "Negative",
+    "key_points": [
+      {
+        "point": "Camera quality is poor",
+        "count": 1
+      }
+    ],
+    "verdict": "Negative, with reports of poor camera quality."
+  }
+]

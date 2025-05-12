@@ -1,0 +1,81 @@
+[
+  {
+    "feature": "Material quality (e.g., cotton)",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "Good/Amazing fabric": 2
+      },
+      {
+        "Not as soft as expected/not cotton": 1
+      },
+      {
+        "Synthetic feeling": 1
+      },
+      {
+        "Thick, textured fabric": 1
+      },
+      {
+        "Not cotton/curtain-like material": 1
+      },
+      {
+        "Okay material": 1
+      },
+      {
+        "Rough fabric": 1
+      },
+      {
+        "Soft fabric": 1
+      }
+    ],
+    "verdict": "Opinions on material quality are varied. Some customers appreciate the fabric's texture and quality, while others are disappointed by the lack of softness, synthetic feel, or inaccurate cotton description."
+  },
+  {
+    "feature": "Thread count",
+    "sentiment": "Neutral",
+    "key_points": [],
+    "verdict": "Thread count is not explicitly mentioned in the provided reviews."
+  },
+  {
+    "feature": "Size and dimensions",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "Satisfaction with size": 1
+      },
+      {
+        "Not suitable for rectangular beds": 1
+      },
+      {
+        "Too small for bed": 1
+      }
+    ],
+    "verdict": "Some customers are happy with the size, while others report issues with the dimensions not fitting their beds properly."
+  },
+  {
+    "feature": "Design and pattern",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "Satisfaction with design": 1
+      },
+      {
+        "Discrepancy between advertised and received stripes (vertical vs horizontal)": 1
+      }
+    ],
+    "verdict": "Design is generally well-received, but some discrepancies exist between the advertised pattern and the received product."
+  },
+  {
+    "feature": "Color fastness",
+    "sentiment": "Negative",
+    "key_points": [
+      {
+        "Dye transfer causing stains": 1
+      },
+      {
+        "Color bleeding during first wash": 1
+      }
+    ],
+    "verdict": "Color fastness is a concern, with reports of dye transfer and color bleeding during washing."
+  }
+]

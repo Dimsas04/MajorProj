@@ -1,0 +1,68 @@
+[
+  {
+    "feature": "Protein content per serving",
+    "sentiment": "Neutral",
+    "key_points": [],
+    "verdict": "Reviews do not explicitly mention protein content per serving."
+  },
+  {
+    "feature": "Protein source",
+    "sentiment": "Neutral",
+    "key_points": [],
+    "verdict": "Reviews do not explicitly mention the protein source."
+  },
+  {
+    "feature": "Flavor",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "Rich chocolate": 3
+      },
+      {
+        "Taste": 8
+      },
+      {
+        "Hazelnut": 2
+      },
+      {
+        "Mango": 1
+      },
+      {
+        "Kesar thandai": 1
+      },
+      {
+        "Chocolate": 1
+      }
+    ],
+    "verdict": "Taste is generally well-received, with specific flavors like rich chocolate and Kesar thandai being particularly praised. Some users note a hazelnut taste in the rich chocolate flavor. There are concerns about flavor fatigue and excessive sweetness in some flavors."
+  },
+  {
+    "feature": "Mixability",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "Mixability": 6
+      },
+      {
+        "Lumps": 1
+      }
+    ],
+    "verdict": "Mixability is generally considered good. However, a few users have reported issues with lumps, particularly with the rich chocolate flavor."
+  },
+  {
+    "feature": "Digestibility",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "No bloating": 2
+      },
+      {
+        "Easy digestion": 1
+      },
+      {
+        "Digestive issues": 1
+      }
+    ],
+    "verdict": "Many users report easy digestion and a lack of bloating. However, some concerns about digestive issues, particularly for those with lactose intolerance, are mentioned."
+  }
+]

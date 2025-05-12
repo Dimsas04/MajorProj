@@ -1,0 +1,85 @@
+[
+  {
+    "feature": "Performance",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "point": "Good sound for the price",
+        "frequency": 2
+      },
+      {
+        "point": "Suitable for beginners",
+        "frequency": 5
+      },
+      {
+        "point": "Difficulty tuning",
+        "frequency": 1
+      },
+      {
+        "point": "Playability",
+        "frequency": 1
+      },
+      {
+        "point": "Versatile use across various music genres",
+        "frequency": 1
+      }
+    ],
+    "verdict": "Overall, the guitar's performance is considered good, especially for beginners. Positive aspects include sound quality and playability. Some users reported tuning issues, and concerns about long-term neck stability exist."
+  },
+  {
+    "feature": "Battery life",
+    "sentiment": "Neutral",
+    "key_points": [
+      {
+        "point": "Not applicable",
+        "frequency": 1
+      }
+    ],
+    "verdict": "This feature is not applicable to an acoustic guitar as it does not require a battery."
+  },
+  {
+    "feature": "Display quality",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "point": "Bright colors",
+        "frequency": 1
+      },
+      {
+        "point": "Beautiful",
+        "frequency": 1
+      }
+    ],
+    "verdict": "The guitar's visual appearance and finish are generally well-received, with users describing it as 'beautiful' and noting its bright colors."
+  },
+  {
+    "feature": "Camera quality",
+    "sentiment": "Neutral",
+    "key_points": [
+      {
+        "point": "Not applicable",
+        "frequency": 1
+      }
+    ],
+    "verdict": "This feature is not applicable to an acoustic guitar."
+  },
+  {
+    "feature": "Storage capacity",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "point": "Included bag",
+        "frequency": 2
+      },
+      {
+        "point": "Guitar cover size insufficient",
+        "frequency": 2
+      },
+      {
+        "point": "Cover did not fit",
+        "frequency": 1
+      }
+    ],
+    "verdict": "The inclusion of a bag is a positive, but some reviewers have reported that the provided cover or gig bag is not the correct size or fit for the guitar."
+  }
+]

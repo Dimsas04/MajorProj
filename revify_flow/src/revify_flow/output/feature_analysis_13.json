@@ -1,0 +1,97 @@
+[
+  {
+    "feature": "Material quality",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "point": "Good quality",
+        "count": 3
+      },
+      {
+        "point": "Poor quality",
+        "count": 2
+      },
+      {
+        "point": "Soft fabric",
+        "count": 3
+      },
+      {
+        "point": "Basic/Unremarkable",
+        "count": 1
+      },
+      {
+        "point": "Value does not match price",
+        "count": 2
+      }
+    ],
+    "verdict": "Reviews regarding material quality are mixed. Some customers praise the softness and overall quality of the fabric, while others complain about poor quality, and that value does not match price. There are also mentions of receiving older stock."
+  },
+  {
+    "feature": "Design",
+    "sentiment": "Neutral",
+    "key_points": [
+      {
+        "point": "Smart looking",
+        "count": 1
+      }
+    ],
+    "verdict": "Design is mentioned sparsely, with one reviewer describing it as 'smart looking'."
+  },
+  {
+    "feature": "Sizing accuracy",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "point": "Good fit",
+        "count": 2
+      },
+      {
+        "point": "Smaller than expected (slim fit)",
+        "count": 2
+      },
+      {
+        "point": "Sizing issues",
+        "count": 2
+      },
+      {
+        "point": "Length is too long",
+        "count": 2
+      }
+    ],
+    "verdict": "Sizing accuracy receives mixed reviews. While some find the fit good initially, others experience issues with the slim fit being smaller than expected and the length being too long. Some suggest ordering a size smaller."
+  },
+  {
+    "feature": "Comfort",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "point": "Comfortable",
+        "count": 4
+      },
+      {
+        "point": "Softness",
+        "count": 3
+      }
+    ],
+    "verdict": "Comfort is a consistently praised feature, with reviewers frequently mentioning the softness of the fabric and overall comfort."
+  },
+  {
+    "feature": "Durability",
+    "sentiment": "Negative",
+    "key_points": [
+      {
+        "point": "Stretches and loses shape",
+        "count": 1
+      },
+      {
+        "point": "Shrinkage after washing",
+        "count": 1
+      },
+      {
+        "point": "Color faded quickly",
+        "count": 2
+      }
+    ],
+    "verdict": "Durability is a concern, with reports of the t-shirt stretching, losing its shape, color fading and shrinking after washing."
+  }
+]

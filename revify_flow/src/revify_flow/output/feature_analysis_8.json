@@ -1,0 +1,104 @@
+[
+  {
+    "feature": "Performance",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "point": "Good performance for everyday tasks (studying, working, media consumption)",
+        "count": 2
+      },
+      {
+        "point": "Smooth operation",
+        "count": 1
+      },
+      {
+        "point": "Not ideal for heavy gaming",
+        "count": 2
+      },
+      {
+        "point": "Fast performance",
+        "count": 1
+      },
+      {
+        "point": "Occasional lag",
+        "count": 1
+      }
+    ],
+    "verdict": "Overall, users are satisfied with the tablet's performance for everyday tasks and productivity, though it's not recommended for heavy gaming. Some users have experienced occasional lag."
+  },
+  {
+    "feature": "Battery life",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "point": "Generally considered good",
+        "count": 1
+      },
+      {
+        "point": "Charging speed decent but not fast",
+        "count": 1
+      },
+      {
+        "point": "Short",
+        "count": 2
+      },
+      {
+        "point": "Good battery life",
+        "count": 1
+      },
+      {
+        "point": "Long charging time",
+        "count": 1
+      }
+    ],
+    "verdict": "Battery life receives mixed reviews. Some users find it good, while others complain about it being too short or the charging time being too long."
+  },
+  {
+    "feature": "Display quality",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "point": "Excellent display",
+        "count": 2
+      },
+      {
+        "point": "Superb",
+        "count": 1
+      },
+      {
+        "point": "Vibrant screen",
+        "count": 1
+      },
+      {
+        "point": "Key positive feature",
+        "count": 1
+      },
+      {
+        "point": "Comparing it favorably to iPads",
+        "count": 1
+      }
+    ],
+    "verdict": "The display quality is consistently praised as excellent and vibrant, often compared favorably to competitors like iPad."
+  },
+  {
+    "feature": "Camera quality",
+    "sentiment": "Negative",
+    "key_points": [
+      {
+        "point": "Adequate for good lighting conditions",
+        "count": 1
+      },
+      {
+        "point": "Subpar in low light",
+        "count": 1
+      }
+    ],
+    "verdict": "The camera quality is considered adequate in good lighting but suffers in low light conditions."
+  },
+  {
+    "feature": "Storage capacity",
+    "sentiment": "Neutral",
+    "key_points": [],
+    "verdict": "No specific mentions about storage capacity in the provided reviews."
+  }
+]

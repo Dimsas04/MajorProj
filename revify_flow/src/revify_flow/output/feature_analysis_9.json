@@ -1,0 +1,40 @@
+[
+  {
+    "feature": "Bluetooth version",
+    "sentiment": "Positive",
+    "key_points": [
+      "Bluetooth calling (multiple mentions)",
+      "Seamless phone integration (1)"
+    ],
+    "verdict": "Bluetooth calling is a well-received feature. Users find phone integration seamless."
+  },
+  {
+    "feature": "Transmission range",
+    "sentiment": "Neutral",
+    "key_points": [],
+    "verdict": "No specific mentions of transmission range were found in the provided reviews."
+  },
+  {
+    "feature": "Battery life",
+    "sentiment": "Mixed",
+    "key_points": [
+      "Long battery life (multiple mentions)",
+      "Rapid battery drain (1)"
+    ],
+    "verdict": "While many users praise the long battery life, some report rapid battery drain, indicating inconsistent performance."
+  },
+  {
+    "feature": "Audio quality",
+    "sentiment": "Positive",
+    "key_points": [
+      "Good sound quality (1)"
+    ],
+    "verdict": "Users report good sound quality."
+  },
+  {
+    "feature": "Latency",
+    "sentiment": "Neutral",
+    "key_points": [],
+    "verdict": "No mentions of latency were found in the reviews."
+  }
+]

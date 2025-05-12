@@ -1,0 +1,153 @@
+[
+  {
+    "feature": "Performance (Processor speed, RAM)",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "point": "Smooth UI",
+        "frequency": 2
+      },
+      {
+        "point": "AI assist",
+        "frequency": 1
+      },
+      {
+        "point": "Heating issues",
+        "frequency": 4
+      },
+      {
+        "point": "Fast",
+        "frequency": 1
+      },
+      {
+        "point": "Smooth experience",
+        "frequency": 1
+      },
+      {
+        "point": "Not for gaming",
+        "frequency": 2
+      },
+      {
+        "point": "Works fine for day to day usage",
+        "frequency": 1
+      }
+    ],
+    "verdict": "Performance is generally adequate for daily tasks, with smooth UI and sufficient RAM. However, some users report heating issues, and it may not be ideal for demanding gaming."
+  },
+  {
+    "feature": "Camera quality (Megapixels, Low-light performance, Nightography)",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "point": "Terrific camera",
+        "frequency": 1
+      },
+      {
+        "point": "Excellent camera",
+        "frequency": 2
+      },
+      {
+        "point": "Rear camera good",
+        "frequency": 1
+      },
+      {
+        "point": "Selfie camera average",
+        "frequency": 1
+      },
+      {
+        "point": "Low light photography is also very good",
+        "frequency": 1
+      },
+      {
+        "point": "Good camera",
+        "frequency": 3
+      },
+      {
+        "point": "Not up to the mark",
+        "frequency": 1
+      },
+      {
+        "point": "Bad camera",
+        "frequency": 1
+      }
+    ],
+    "verdict": "Camera quality receives mixed reviews. Some users find it excellent, particularly in low light, while others find it just good or even bad. Opinions vary on whether it lives up to expectations for the price range."
+  },
+  {
+    "feature": "Battery life",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "point": "Long lasting battery life",
+        "frequency": 1
+      },
+      {
+        "point": "Battery drain",
+        "frequency": 2
+      },
+      {
+        "point": "Battery life average",
+        "frequency": 1
+      },
+      {
+        "point": "Fabulous battery",
+        "frequency": 1
+      },
+      {
+        "point": "Longest running batteries in the market",
+        "frequency": 1
+      },
+      {
+        "point": "Battery draining fast",
+        "frequency": 1
+      },
+      {
+        "point": "Battery backup is also good 12 hrs minimum",
+        "frequency": 1
+      }
+    ],
+    "verdict": "Battery life is a point of contention. While some users praise its long-lasting performance, others report rapid battery drain, especially with continuous usage."
+  },
+  {
+    "feature": "Display quality (Resolution, Refresh rate)",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "point": "Excellent display",
+        "frequency": 1
+      },
+      {
+        "point": "Very beautiful",
+        "frequency": 1
+      },
+      {
+        "point": "Awesome speakers",
+        "frequency": 2
+      },
+      {
+        "point": "Good screen resolution",
+        "frequency": 1
+      },
+      {
+        "point": "Extraordinary display and sound",
+        "frequency": 1
+      },
+      {
+        "point": "Refresh rate is very good",
+        "frequency": 1
+      }
+    ],
+    "verdict": "Display quality is generally well-regarded, with users praising the resolution, refresh rate, and overall visual experience. Sound quality and speakers are also considered to be very good."
+  },
+  {
+    "feature": "Storage capacity",
+    "sentiment": "Neutral",
+    "key_points": [
+      {
+        "point": "12 GB 256 is better",
+        "frequency": 1
+      }
+    ],
+    "verdict": "Storage capacity is adequate"
+  }
+]

@@ -1,0 +1,100 @@
+[
+  {
+    "feature": "Skin Cleansing Effectiveness",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "smooth shave": 10
+      },
+      {
+        "close shave": 2
+      },
+      {
+        "softens beard": 2
+      },
+      {
+        "clean shave": 1
+      }
+    ],
+    "verdict": "The majority of reviewers find that the shaving foam effectively cleanses the skin, providing a smooth and close shave. Many also say it softens the beard."
+  },
+  {
+    "feature": "Charcoal/Ingredient Quality",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "charcoal-infused formula": 1
+      },
+      {
+        "activated charcoal and Moroccan argan oil": 1
+      },
+      {
+        "ingredients looked different": 1
+      },
+      {
+        "charcol in it works": 1
+      }
+    ],
+    "verdict": "Reviewers appreciate the inclusion of charcoal and other ingredients, believing they contribute to the product's effectiveness. The detoxifying properties of charcoal are specifically mentioned."
+  },
+  {
+    "feature": "Skin Irritation/Sensitivity",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "no irritation": 2
+      },
+      {
+        "reduction in razor bumps and irritation": 1
+      },
+      {
+        "skin is not irritated": 1
+      },
+      {
+        "gentle on the skin": 1
+      }
+    ],
+    "verdict": "While some users report a reduction in skin irritation and razor bumps, there are mentions of skin irritation, making the sentiment mixed. The product appears to be gentle on the skin for some, but not all, users."
+  },
+  {
+    "feature": "Scent/Fragrance",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "pleasant scent": 4
+      },
+      {
+        "subtle and masculine fragrance": 1
+      },
+      {
+        "smell is pleasant": 1
+      },
+      {
+        "invigorating": 1
+      }
+    ],
+    "verdict": "The scent is generally well-received, described as pleasant, subtle, and masculine. It contributes positively to the overall shaving experience."
+  },
+  {
+    "feature": "Lather Quality",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "rich, creamy lather": 2
+      },
+      {
+        "thick enough for a smooth shave": 1
+      },
+      {
+        "very rich foam": 1
+      },
+      {
+        "doesn't create much foam": 1
+      },
+      {
+        "not so foamy": 1
+      }
+    ],
+    "verdict": "Opinions on lather quality are divided. Some praise the rich and creamy lather, while others find it lacking in foam or too thick."
+  }
+]

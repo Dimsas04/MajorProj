@@ -1,0 +1,105 @@
+[
+  {
+    "feature": "Connectivity (Bluetooth, Wired)",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "point": "Multiple connectivity options (Bluetooth, Wi-Fi dongle, wired)",
+        "count": 4
+      },
+      {
+        "point": "Easy connection via dongle",
+        "count": 1
+      },
+      {
+        "point": "Connectivity problems reported",
+        "count": 1
+      }
+    ],
+    "verdict": "Generally positive, with users appreciating the versatility of connectivity options. Some connectivity issues were reported."
+  },
+  {
+    "feature": "Compatibility (PC, Mobile, Consoles)",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "point": "Compatibility with multiple platforms (PC, Android, iOS, Nintendo Switch)",
+        "count": 1
+      },
+      {
+        "point": "Performance on PC and Android",
+        "count": 1
+      }
+    ],
+    "verdict": "Positive feedback on the controller's ability to work across different platforms."
+  },
+  {
+    "feature": "Ergonomics and Comfort",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "point": "Comfortable feel and ergonomics",
+        "count": 1
+      },
+      {
+        "point": "Grip comfort for extended gaming sessions",
+        "count": 1
+      },
+      {
+        "point": "Button placement issues causing discomfort after prolonged use",
+        "count": 1
+      }
+    ],
+    "verdict": "Mostly positive, with good grip comfort mentioned. Some users experienced discomfort with button placement after long use."
+  },
+  {
+    "feature": "Button responsiveness and durability",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "point": "Responsive buttons",
+        "count": 1
+      },
+      {
+        "point": "Clicky LB/RB buttons",
+        "count": 1
+      },
+      {
+        "point": "Durability of the left and right bumpers is a concern",
+        "count": 1
+      },
+      {
+        "point": "Broken analog sticks upon arrival",
+        "count": 1
+      },
+      {
+        "point": "Malfunctioning analog sticks after a few days of use",
+        "count": 1
+      }
+    ],
+    "verdict": "Mixed reviews. While responsive, some users reported issues with button durability and analog stick functionality."
+  },
+  {
+    "feature": "Battery life (for wireless)",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "point": "Good battery life",
+        "count": 2
+      },
+      {
+        "point": "Poor battery life",
+        "count": 1
+      },
+      {
+        "point": "Battery drain when the controller is accidentally activated",
+        "count": 1
+      },
+      {
+        "point": "Ability to use the controller while charging",
+        "count": 1
+      }
+    ],
+    "verdict": "Inconsistent feedback. Some users reported good battery life, while others experienced poor battery life or battery drain issues."
+  }
+]
