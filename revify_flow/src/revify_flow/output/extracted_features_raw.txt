@@ -1,0 +1,17 @@
+```json
+{
+  "features": [
+    "Display Quality",
+    "Battery Life",
+    "Storage Capacity",
+    "Ecosystem (Book Selection)",
+    "Portability",
+    "User Interface",
+    "Page Turn Speed",
+    "Reading Comfort (Ergonomics)",
+    "Durability",
+    "Connectivity (Wi-Fi)",
+    "Price"
+  ]
+}
+```

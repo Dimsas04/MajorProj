@@ -1,0 +1,5 @@
+.qodo
+.env
+reviews_dataset/
+amazon_reviews_page.txt
+scraped_reviews.csv
