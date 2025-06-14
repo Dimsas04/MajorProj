@@ -1,6 +1,6 @@
-# MajorProj: Agentic Customer Review Analysis
+# Revify: Agentic Customer Review Analysis
 
-MajorProj is an advanced, agentic-architecture-powered project that automates the analysis of customer reviews using a multi-agent system built atop [crewAI](https://crewai.com). Designed for flexibility and extensibility, MajorProj enables deep, feature-based sentiment analysis, efficient review scraping, and collaborative research generation, all orchestrated through autonomous, specialized AI agents.
+Revify is an advanced, agentic-architecture-powered project that automates the analysis of customer reviews using a multi-agent system built atop [crewAI](https://crewai.com). Designed for flexibility and extensibility, Revify enables deep, feature-based sentiment analysis, efficient review scraping, and collaborative research generation, all orchestrated through autonomous, specialized AI agents.
 
 ---
 
@@ -30,7 +30,7 @@ MajorProj is an advanced, agentic-architecture-powered project that automates th
 
 ## Agentic Architecture
 
-MajorProj utilizes an agentic paradigm via CrewAI, where each agent fulfills a specialized role:
+Revify utilizes an agentic paradigm via CrewAI, where each agent fulfills a specialized role:
 
 - **Review Scraper Agent**
   - Scrapes reviews from Amazon using Selenium and BeautifulSoup.
