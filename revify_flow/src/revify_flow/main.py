@@ -849,7 +849,7 @@ def run_workflow():
             # Pass product name if available
             scrape_result = scrape_crew.kickoff(inputs={
                     "product_url": product_url,
-                    "target_reviews": 50,  # Reduced for testing
+                    "target_reviews": 200,  # Reduced for testing
                     "product_name": product_name if product_name else "Test Product"
                 })
             
@@ -881,7 +881,7 @@ def run_workflow():
         return
     
     # 4. Summarize reviews in chunks
-    chunk_summaries = summarize_reviews_chunked(review_dicts, team, chunk_size=10)
+    chunk_summaries = summarize_reviews_chunked(review_dicts, team, chunk_size=30)
     reviews_input = "\n\n".join(chunk_summaries)
     
     # 5. Analyze reviews by feature

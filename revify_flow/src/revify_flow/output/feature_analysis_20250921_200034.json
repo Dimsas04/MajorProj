@@ -1,0 +1,89 @@
+[
+  {
+    "feature": "Comfort",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "point": "Generally positive",
+        "count": 2
+      },
+      {
+        "point": "Lack of cushioning",
+        "count": 1
+      },
+      {
+        "point": "Potential for blisters",
+        "count": 1
+      },
+      {
+        "point": "Good quality",
+        "count": 1
+      }
+    ],
+    "verdict": "Comfort is generally perceived as good, but some users report a lack of cushioning and potential for blisters."
+  },
+  {
+    "feature": "Fit",
+    "sentiment": "Negative",
+    "key_points": [
+      {
+        "point": "Size issues",
+        "count": 1
+      },
+      {
+        "point": "Tightness",
+        "count": 1
+      },
+      {
+        "point": "Reason for returns",
+        "count": 1
+      }
+    ],
+    "verdict": "Fit is a concern, with tightness being a common issue leading to returns."
+  },
+  {
+    "feature": "Durability",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "point": "Mixed feedback",
+        "count": 1
+      },
+      {
+        "point": "Sturdiness praised",
+        "count": 1
+      },
+      {
+        "point": "Wear and tear after a few months",
+        "count": 1
+      },
+      {
+        "point": "Question mark until longer use",
+        "count": 1
+      }
+    ],
+    "verdict": "Durability feedback is mixed, with some praising sturdiness and others reporting wear and tear."
+  },
+  {
+    "feature": "Sole quality",
+    "sentiment": "Neutral",
+    "key_points": [
+      {
+        "point": "Implied by durability feedback",
+        "count": 1
+      }
+    ],
+    "verdict": "Sole quality is not explicitly mentioned, but inferences can be drawn from durability reviews."
+  },
+  {
+    "feature": "Support",
+    "sentiment": "Neutral",
+    "key_points": [
+      {
+        "point": "Not explicitly mentioned",
+        "count": 1
+      }
+    ],
+    "verdict": "Support is not directly addressed in the provided reviews."
+  }
+]

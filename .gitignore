@@ -3,3 +3,4 @@
 reviews_dataset/
 amazon_reviews_page.txt
 scraped_reviews.csv
+revify-frontend/node_modules/

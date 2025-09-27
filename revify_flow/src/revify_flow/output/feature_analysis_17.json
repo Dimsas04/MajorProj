@@ -1,0 +1,117 @@
+[
+  {
+    "feature": "Comfort",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "point": "Comfortable",
+        "count": 4
+      },
+      {
+        "point": "Lack of comfort",
+        "count": 3
+      },
+      {
+        "point": "Insole hard",
+        "count": 1
+      },
+      {
+        "point": "Hard material in toe area",
+        "count": 1
+      },
+      {
+        "point": "Lacking flexibility",
+        "count": 1
+      }
+    ],
+    "verdict": "Comfort is a highly debated feature. While some find the shoes comfortable for walking, gym, and everyday use, others report a lack of comfort, hard insoles, and stiffness, especially for extended wear."
+  },
+  {
+    "feature": "Fit",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "point": "Good fitting",
+        "count": 1
+      },
+      {
+        "point": "Sizing issues",
+        "count": 1
+      },
+      {
+        "point": "Order a size up",
+        "count": 1
+      },
+      {
+        "point": "Mismatch shoe sizes",
+        "count": 1
+      }
+    ],
+    "verdict": "The fit is inconsistent. Some customers find the shoes true to size, while others recommend ordering a size up or report receiving mismatched sizes."
+  },
+  {
+    "feature": "Durability",
+    "sentiment": "Negative",
+    "key_points": [
+      {
+        "point": "Durability concerns",
+        "count": 2
+      },
+      {
+        "point": "Damage within a month",
+        "count": 1
+      },
+      {
+        "point": "Holes appearing after short use",
+        "count": 1
+      }
+    ],
+    "verdict": "Durability is a concern for some customers, with reports of damage occurring within a short period of use."
+  },
+  {
+    "feature": "Style",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "point": "Stylish",
+        "count": 2
+      },
+      {
+        "point": "Nice design",
+        "count": 2
+      },
+      {
+        "point": "Appearance",
+        "count": 1
+      }
+    ],
+    "verdict": "The style and design of the shoes are generally well-received."
+  },
+  {
+    "feature": "Sole quality",
+    "sentiment": "Negative",
+    "key_points": [
+      {
+        "point": "Sole quality concerns",
+        "count": 1
+      },
+      {
+        "point": "Sole softness",
+        "count": 1
+      },
+      {
+        "point": "Water seepage",
+        "count": 1
+      },
+      {
+        "point": "Rapid wear",
+        "count": 1
+      },
+      {
+        "point": "Insufficient toughness for walking",
+        "count": 1
+      }
+    ],
+    "verdict": "Several reviewers have concerns about the sole quality, citing issues such as water seepage, rapid wear, and insufficient toughness."
+  }
+]

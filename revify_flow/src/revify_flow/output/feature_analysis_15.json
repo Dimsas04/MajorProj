@@ -1,0 +1,109 @@
+[
+  {
+    "feature": "Comfort",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "point": "Comfortable",
+        "count": 6
+      },
+      {
+        "point": "Uncomfortable",
+        "count": 3
+      },
+      {
+        "point": "Suitable for daily wear",
+        "count": 2
+      },
+      {
+        "point": "Not very cushiony",
+        "count": 1
+      },
+      {
+        "point": "Prioritizing comfort above all else might want to consider other options",
+        "count": 1
+      }
+    ],
+    "verdict": "Comfort is a highly debated feature. Some users find the shoes comfortable for daily use, while others report discomfort and suggest alternative options for those prioritizing comfort."
+  },
+  {
+    "feature": "Fit",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "point": "Good fit",
+        "count": 1
+      },
+      {
+        "point": "Available size options",
+        "count": 1
+      }
+    ],
+    "verdict": "The fit is generally well-received, with positive comments on available size options."
+  },
+  {
+    "feature": "Durability",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "point": "Durability mentioned as positive",
+        "count": 1
+      },
+      {
+        "point": "Okay quality",
+        "count": 1
+      },
+      {
+        "point": "Not very good",
+        "count": 1
+      }
+    ],
+    "verdict": "Durability receives moderately positive feedback, though some concerns about overall quality exist."
+  },
+  {
+    "feature": "Style",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "point": "Stylish appearance",
+        "count": 3
+      },
+      {
+        "point": "Attractive design",
+        "count": 1
+      },
+      {
+        "point": "Good appearance",
+        "count": 1
+      },
+      {
+        "point": "Design",
+        "count": 1
+      },
+      {
+        "point": "Look",
+        "count": 1
+      }
+    ],
+    "verdict": "The style and appearance of the shoes are consistently praised by reviewers."
+  },
+  {
+    "feature": "Sole quality",
+    "sentiment": "Negative",
+    "key_points": [
+      {
+        "point": "Not very cushiony",
+        "count": 1
+      },
+      {
+        "point": "Cheap",
+        "count": 1
+      },
+      {
+        "point": "Unsuitable for running",
+        "count": 1
+      }
+    ],
+    "verdict": "Sole quality is a significant concern, with some reviewers describing it as cheap and unsuitable for running."
+  }
+]

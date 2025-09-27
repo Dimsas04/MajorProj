@@ -1,0 +1,125 @@
+[
+  {
+    "feature": "Comfort",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "point": "Very comfortable",
+        "count": 2
+      },
+      {
+        "point": "Light weight",
+        "count": 2
+      },
+      {
+        "point": "Can wear them for long hours",
+        "count": 1
+      },
+      {
+        "point": "Well cushioned",
+        "count": 1
+      },
+      {
+        "point": "Soft sole",
+        "count": 1
+      }
+    ],
+    "verdict": "Most users find the shoes comfortable, particularly due to their lightweight design and cushioning. Some mentioned softness of the sole."
+  },
+  {
+    "feature": "Fit",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "point": "Perfect fit",
+        "count": 4
+      },
+      {
+        "point": "Too small",
+        "count": 2
+      },
+      {
+        "point": "Slightly loose fitting",
+        "count": 1
+      },
+      {
+        "point": "Tight",
+        "count": 1
+      },
+      {
+        "point": "Go for one size bigger",
+        "count": 1
+      }
+    ],
+    "verdict": "The fit is inconsistent. Some users find the shoes to be a perfect fit, while others recommend ordering a size up due to the shoes running small or tight. Broad feet might experience tightness."
+  },
+  {
+    "feature": "Durability",
+    "sentiment": "Negative",
+    "key_points": [
+      {
+        "point": "Started to wear off",
+        "count": 1
+      },
+      {
+        "point": "Damaged in just 3 months",
+        "count": 1
+      },
+      {
+        "point": "Strips on sole have started coming out",
+        "count": 1
+      },
+      {
+        "point": "Poor quality",
+        "count": 2
+      },
+      {
+        "point": "Edge repaired with glue and small torn",
+        "count": 1
+      }
+    ],
+    "verdict": "Several users have reported issues with the durability of the shoes, including the sole wearing off and the product getting damaged within a short period. Some suspect a lack of authenticity."
+  },
+  {
+    "feature": "Sole quality",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "point": "Good sole",
+        "count": 2
+      },
+      {
+        "point": "Grip was made of rubber",
+        "count": 1
+      },
+      {
+        "point": "Bottom rubber line cushion started to wear off",
+        "count": 1
+      },
+      {
+        "point": "Strips on sole have started coming out",
+        "count": 1
+      },
+      {
+        "point": "Sole make noise",
+        "count": 1
+      }
+    ],
+    "verdict": "While some users appreciate the sole's grip and quality, others have experienced issues with the sole wearing off quickly or making noise."
+  },
+  {
+    "feature": "Support",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "point": "Good for walking",
+        "count": 1
+      },
+      {
+        "point": "Gives good support",
+        "count": 1
+      }
+    ],
+    "verdict": "The shoes provide good support, especially for walking."
+  }
+]

@@ -1,0 +1,149 @@
+[
+  {
+    "feature": "Audio quality (sound clarity, bass response, noise cancellation)",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "point": "Good sound quality",
+        "count": 8
+      },
+      {
+        "point": "Excellent bass",
+        "count": 7
+      },
+      {
+        "point": "Crisp and detailed sound",
+        "count": 1
+      },
+      {
+        "point": "Immersive sound with Dolby Audio",
+        "count": 2
+      },
+      {
+        "point": "Bass could be improved",
+        "count": 1
+      },
+      {
+        "point": "No active noise cancellation (ANC)",
+        "count": 3
+      },
+      {
+        "point": "Sound distortion at full volume",
+        "count": 1
+      }
+    ],
+    "verdict": "Users generally praise the audio quality, especially the bass. The presence of Dolby Audio is appreciated. However, the lack of ANC is a common drawback."
+  },
+  {
+    "feature": "Battery life (playback time, charging time)",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "point": "Long battery life",
+        "count": 8
+      },
+      {
+        "point": "Extended usage over several days",
+        "count": 1
+      },
+      {
+        "point": "Up to 80 hours playback",
+        "count": 1
+      },
+      {
+        "point": "ASAP fast charging",
+        "count": 3
+      },
+      {
+        "point": "Several hours playback with 10 minutes charging",
+        "count": 1
+      }
+    ],
+    "verdict": "Battery life is a standout feature, with many users reporting long playback times and appreciating the fast charging capability."
+  },
+  {
+    "feature": "Comfort (earcup padding, headband adjustability, weight)",
+    "sentiment": "Mixed",
+    "key_points": [
+      {
+        "point": "Comfortable earpads",
+        "count": 3
+      },
+      {
+        "point": "Plush cushioning",
+        "count": 1
+      },
+      {
+        "point": "Earpads a bit hard",
+        "count": 1
+      },
+      {
+        "point": "Sweat after extended use",
+        "count": 2
+      },
+      {
+        "point": "Feels heavy after extended use",
+        "count": 2
+      },
+      {
+        "point": "Lightweight",
+        "count": 2
+      },
+      {
+        "point": "Compact in wearing",
+        "count": 1
+      }
+    ],
+    "verdict": "Comfort is subjective. While some users find the headphones comfortable for long listening sessions, others experience discomfort, heat, and feel the weight after extended use."
+  },
+  {
+    "feature": "Build quality (durability, materials used)",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "point": "Sturdy build",
+        "count": 2
+      },
+      {
+        "point": "Good build quality",
+        "count": 2
+      },
+      {
+        "point": "Concerns about earcup durability",
+        "count": 1
+      },
+      {
+        "point": "Looseness over time",
+        "count": 1
+      },
+      {
+        "point": "Plastic build might not feel premium",
+        "count": 1
+      }
+    ],
+    "verdict": "The build quality is generally considered good, although some users have concerns about the long-term durability of the materials."
+  },
+  {
+    "feature": "Connectivity (Bluetooth version, wireless range)",
+    "sentiment": "Positive",
+    "key_points": [
+      {
+        "point": "Seamless connectivity",
+        "count": 1
+      },
+      {
+        "point": "Dual pairing",
+        "count": 2
+      },
+      {
+        "point": "Connect to multiple devices simultaneously",
+        "count": 1
+      },
+      {
+        "point": "Connectivity issues with laptops",
+        "count": 1
+      }
+    ],
+    "verdict": "Connectivity is generally reliable, dual pairing is praised, although there are a few reports of issues specifically with laptops."
+  }
+]
