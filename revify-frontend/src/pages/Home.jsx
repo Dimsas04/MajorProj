@@ -63,9 +63,7 @@ const Home = () => {
       setIsLoading(true);
       const productName = extractProductNameFromURL(productUrl);
       
-      await revifyAPI.startAnalysis(productUrl, productName);
-      
-      // Navigate to analysis page with URL as state
+      // Just navigate to analysis page - let it handle feature extraction
       navigate('/analysis', { 
         state: { 
           productUrl,

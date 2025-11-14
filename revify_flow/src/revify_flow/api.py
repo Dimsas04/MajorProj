@@ -8,9 +8,7 @@ import time
 from datetime import datetime
 import traceback
 import re
-import json
-import traceback
-from datetime import datetime
+from crewai import Crew, Process
 
 # Add your project to Python path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
@@ -53,7 +51,7 @@ def update_status(progress, phase, error=None):
         analysis_status['error'] = error
         analysis_status['is_running'] = False
 
-def run_analysis_workflow(product_url, product_name):
+def run_analysis_workflow(product_url, product_name, selected_features=None):
     """Run the analysis workflow in a separate thread"""
     try:
         global analysis_status
@@ -62,38 +60,43 @@ def run_analysis_workflow(product_url, product_name):
         
         update_status(10, "Initializing TeamRevify...")
         team = TeamRevify()
-        
-        # Phase 1: Extract Features
-        update_status(20, "Extracting product features...")
-        
-        from crewai import Crew, Process
-        feature_agent = team.feature_extractor()
-        feature_task = team.extract_features_task()
-        
-        feature_crew = Crew(
-            agents=[feature_agent],
-            tasks=[feature_task],
-            process=Process.sequential,
-            verbose=False  # Reduce console output
-        )
-        
-        feature_result = feature_crew.kickoff(inputs={"product_input": product_url})
-        feature_raw = feature_result.raw
-        
-        update_status(40, "Processing extracted features...")
-        
-        # Process features
-        extracted_json = extract_json_from_markdown(feature_raw)
-        features_data = json.loads(extracted_json)
-        
-        if isinstance(features_data, dict) and "features" in features_data:
-            features = features_data["features"]
-        else:
-            features = features_data
-        
-        # Limit features to avoid rate limits
-        if len(features) > 5:
-            features = features[:5]
+
+        # Check if features are provided
+        if selected_features:
+            features = selected_features
+            update_status(30, f"Using {len(features)} selected features...")
+            print(f"✅ Using user-selected features: {features}")
+        else: 
+            # Phase 1: Extract Features
+            update_status(20, "Extracting product features...")
+            
+            feature_agent = team.feature_extractor()
+            feature_task = team.extract_features_task()
+            
+            feature_crew = Crew(
+                agents=[feature_agent],
+                tasks=[feature_task],
+                process=Process.sequential,
+                verbose=False  # Reduce console output
+            )
+            
+            feature_result = feature_crew.kickoff(inputs={"product_input": product_url})
+            feature_raw = feature_result.raw
+            
+            update_status(40, "Processing extracted features...")
+            
+            # Process features
+            extracted_json = extract_json_from_markdown(feature_raw)
+            features_data = json.loads(extracted_json)
+            
+            if isinstance(features_data, dict) and "features" in features_data:
+                features = features_data["features"]
+            else:
+                features = features_data
+            
+            # Limit features to avoid rate limits
+            if len(features) > 7:
+                features = features[:7]
         
         update_status(50, f"Scraping reviews for {len(features)} features...")
         
@@ -284,6 +287,53 @@ def health_check():
     """Health check endpoint"""
     return jsonify({"status": "healthy", "message": "Revify API is running"})
 
+@app.route('/api/extract-features', methods=['POST'])
+def extract_features_only():
+    """Extract features without starting full analysis"""
+    try:
+        data = request.get_json()
+        
+        if not data or 'product_url' not in data:
+            return jsonify({"error": "product_url is required"}), 400
+        
+        product_url = data['product_url']
+        
+        update_status(20, "Extracting product features...")
+        
+        team = TeamRevify()
+        from crewai import Crew, Process
+        
+        feature_agent = team.feature_extractor()
+        feature_task = team.extract_features_task()
+        
+        feature_crew = Crew(
+            agents=[feature_agent],
+            tasks=[feature_task],
+            process=Process.sequential,
+            verbose=False
+        )
+        
+        feature_result = feature_crew.kickoff(inputs={"product_input": product_url})
+        feature_raw = feature_result.raw
+        
+        # Process features
+        extracted_json = extract_json_from_markdown(feature_raw)
+        features_data = json.loads(extracted_json)
+        
+        if isinstance(features_data, dict) and "features" in features_data:
+            features = features_data["features"]
+        else:
+            features = features_data
+        
+        return jsonify({
+            "features": features,
+            "total_count": len(features)
+        })
+        
+    except Exception as e:
+        return jsonify({"error": f"Failed to extract features: {str(e)}"}), 500
+
+
 @app.route('/api/analyze', methods=['POST'])
 def analyze_product():
     """Start product analysis"""
@@ -295,6 +345,7 @@ def analyze_product():
         
         product_url = data['product_url']
         product_name = data.get('product_name', '')
+        selected_features = data.get('selected_features', None)  # NEW: Accept selected features
         
         # Check if analysis is already running
         if analysis_status['is_running']:
@@ -306,14 +357,15 @@ def analyze_product():
         # Start analysis in a separate thread
         analysis_thread = threading.Thread(
             target=run_analysis_workflow, 
-            args=(product_url, product_name)
+            args=(product_url, product_name, selected_features)
         )
         analysis_thread.daemon = True
         analysis_thread.start()
         
         return jsonify({
             "message": "Analysis started successfully",
-            "status": "running"
+            "status": "running",
+            "features_count": len(selected_features) if selected_features else "all"
         })
         
     except Exception as e:

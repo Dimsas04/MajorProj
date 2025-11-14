@@ -12,6 +12,7 @@ This version:
 import os
 import time
 import random
+import warnings
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 
@@ -21,6 +22,14 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+
+# Suppress the ChromeDriver cleanup warnings
+warnings.filterwarnings("ignore", category=ResourceWarning)
+import sys
+if sys.platform == 'win32':
+    # Suppress Windows handle errors during cleanup
+    import ctypes
+    ctypes.windll.kernel32.SetErrorMode(0x0001 | 0x0002)
 
 # Load credentials
 load_dotenv()
@@ -152,8 +161,7 @@ def scrape_reviews(url):
         review_titles = []
         reviews = []
         ratings = []
-
-        pages_to_scrape = 7
+        pages_to_scrape = 10
         for _ in range(pages_to_scrape):
             random_sleep(1, 2)
 
@@ -187,10 +195,26 @@ def scrape_reviews(url):
         print("✅ Scraping completed successfully!")
         return review_titles, reviews, ratings
 
+    except Exception as e:
+        print(f"❌ Error during scraping: {e}")
+        return [], [], []
+    
     finally:
-        # Optionally keep browser open (comment next line if you want it to close)
-        # driver.quit()
-        pass
+        # Properly close the driver to avoid handle errors
+        try:
+            if driver:
+                # Close browser windows first
+                driver.close()
+                # Stop the ChromeDriver service
+                if hasattr(driver, 'service') and driver.service:
+                    driver.service.stop()
+                # Finally quit
+                driver.quit()
+        except (OSError, Exception) as e:
+            # Suppress the WinError 6 handle error - it's harmless
+            if "WinError 6" not in str(e) and "handle is invalid" not in str(e):
+                print(f"⚠️ Error closing driver: {e}")
+            pass
 
 
 # ---------------------------- Main ---------------------------- #

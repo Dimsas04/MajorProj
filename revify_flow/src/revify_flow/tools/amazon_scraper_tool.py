@@ -422,23 +422,34 @@
         
 #         return compatibility_filename
 
-# Version 3:
+# Version 4: Enhanced with undetected_chromedriver
 
 from typing import ClassVar, Optional, Dict, Any, Type
 from pydantic import BaseModel, Field, PrivateAttr
 from crewai.tools import BaseTool
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 from bs4 import BeautifulSoup
 import time
 import os
+import random
+import warnings
 import pandas as pd
 import re
 from dotenv import load_dotenv
 import logging
+import sys
+
+# Suppress the ChromeDriver cleanup warnings
+warnings.filterwarnings("ignore", category=ResourceWarning)
+if sys.platform == 'win32':
+    # Suppress Windows handle errors during cleanup
+    import ctypes
+    ctypes.windll.kernel32.SetErrorMode(0x0001 | 0x0002)
 
 # Set up logging for better debugging
 logging.basicConfig(level=logging.INFO, 
@@ -487,8 +498,12 @@ class AmazonScraperTool(BaseTool):
             print("NUMBER=your_email_or_phone_number")
             print("PASSWORD=your_amazon_password")
         else:
-            logger.info(f"Credentials loaded successfully (username: {self._username[:2]}...{self._username[-2:]})")
+            logger.info(f"Credentials loaded successfully (username: {self._username[:2]}...{self._username[-2:]})") 
             print(f"✓ Credentials loaded successfully (username: {self._username[:2]}...{self._username[-2:]})")
+    
+    def _random_sleep(self, a=0.4, b=1.0):
+        """Short randomized delay to mimic human-like timing."""
+        time.sleep(random.uniform(a, b))
     
     def _run(self, url: str, target_reviews: int, product_name: Optional[str] = None) -> str:
         """Run the tool with the given inputs."""
@@ -529,7 +544,7 @@ class AmazonScraperTool(BaseTool):
             return error_msg
 
     def _perform_scraping(self, url: str, target_reviews):
-        """Internal method to handle the actual scraping logic"""
+        """Internal method to handle the actual scraping logic with undetected_chromedriver"""
         driver = self._setup_driver()
         review_titles = []
         reviews = []
@@ -539,237 +554,192 @@ class AmazonScraperTool(BaseTool):
             logger.info(f"Opening URL: {url}")
             print(f"Opening URL: {url}")
             driver.get(url)
-            
-            # Save the initial page for debugging
-            with open('initial_page.html', 'w', encoding='utf-8') as f:
-                f.write(driver.page_source)
-            
-            # Check if we need to handle CAPTCHA
-            if "captcha" in driver.page_source.lower():
-                logger.info("CAPTCHA detected! Please solve the CAPTCHA manually...")
-                print("🔍 CAPTCHA detected! Please solve the CAPTCHA manually...")
-                # Wait for manual CAPTCHA solution
-                time.sleep(10)  # Give user time to notice
-                input("Press Enter after solving CAPTCHA...")
-            
-            # Wait and click on the "See all reviews" link
+
+            # ---------------- OPEN REVIEWS PAGE ---------------- #
+            WebDriverWait(driver, 20).until(
+                EC.element_to_be_clickable((By.XPATH, '//*[@id="reviews-medley-footer"]/div[2]/a'))
+            ).click()
+
+            # ---------------- LOGIN SECTION ---------------- #
             try:
-                logger.info("Looking for 'See all reviews' link...")
-                print("Looking for 'See all reviews' link...")
-                
-                # First try the standard path
                 try:
-                    all_reviews_link = WebDriverWait(driver, 15).until(
-                        EC.element_to_be_clickable((By.XPATH, '//*[@id="reviews-medley-footer"]/div[2]/a'))
+                    email_input = WebDriverWait(driver, 20).until(
+                        EC.presence_of_element_located((By.ID, "ap_email"))
                     )
-                    all_reviews_link.click()
-                    logger.info("Clicked on 'See all reviews' link")
-                except Exception as e:
-                    logger.warning(f"Standard 'See all reviews' link not found: {str(e)}")
-                    
-                    # Try alternative selectors
-                    try:
-                        # Try to find by text content
-                        all_reviews_link = WebDriverWait(driver, 10).until(
-                            EC.element_to_be_clickable((By.XPATH, '//a[contains(text(), "See all reviews") or contains(text(), "customer reviews")]'))
-                        )
-                        all_reviews_link.click()
-                        logger.info("Clicked on alternative 'See all reviews' link")
-                    except Exception as e2:
-                        logger.warning(f"Alternative 'See all reviews' link not found: {str(e2)}")
-                        
-                        # Last resort - try to directly navigate to reviews page
-                        if "/dp/" in url:
-                            product_id = re.search(r'/dp/([A-Z0-9]+)', url).group(1)
-                            domain = re.search(r'https?://(?:www\.)?([^/]+)', url).group(0)
-                            reviews_url = f"{domain}/product-reviews/{product_id}"
-                            logger.info(f"Attempting to navigate directly to: {reviews_url}")
-                            driver.get(reviews_url)
-            except Exception as e:
-                logger.error(f"Failed to navigate to reviews: {str(e)}")
-                # Continue anyway, we might already be on a reviews page
-            
-            # Check if login is required
-            if "ap_email_login" in driver.page_source or "ap_email" in driver.page_source:
-                logger.info("Login form detected, attempting to log in...")
-                print("Login form detected, attempting to log in...")
-                
-                # Try the regular email field first
-                try:
-                    email_input = WebDriverWait(driver, 10).until(
+                except:
+                    email_input = WebDriverWait(driver, 20).until(
                         EC.presence_of_element_located((By.ID, "ap_email_login"))
                     )
-                except:
-                    try:
-                        email_input = WebDriverWait(driver, 10).until(
-                            EC.presence_of_element_located((By.ID, "ap_email"))
-                        )
-                    except Exception as e:
-                        logger.error(f"Could not find email input: {str(e)}")
-                        print("Could not find email input field")
-                        raise
-                
-                logger.info(f"Using username: {self._username[:2]}...{self._username[-2:]}")
+
+                logger.info(f"Logging in as: {self._username}")
+                print(f"Logging in as: {self._username}")
                 email_input.send_keys(self._username)
-                
-                # Try different continue button IDs
+                self._random_sleep()
+
+                continue_button = WebDriverWait(driver, 20).until(
+                    EC.element_to_be_clickable((By.ID, "continue"))
+                )
+                continue_button.click()
+
+                password_input = WebDriverWait(driver, 20).until(
+                    EC.presence_of_element_located((By.ID, "ap_password"))
+                )
+                password_input.send_keys(self._password)
+                self._random_sleep()
+
+                sign_in_button = WebDriverWait(driver, 20).until(
+                    EC.element_to_be_clickable((By.ID, "signInSubmit"))
+                )
+                sign_in_button.click()
+
+                # Wait for login to complete or timeout safely
+                login_ok = False
                 try:
-                    enter_button = WebDriverWait(driver, 10).until(
-                        EC.element_to_be_clickable((By.ID, "continue"))
-                    )
-                except:
-                    try:
-                        enter_button = WebDriverWait(driver, 10).until(
-                            EC.element_to_be_clickable((By.ID, "sign-in-button"))
+                    WebDriverWait(driver, 10).until(
+                        EC.any_of(
+                            EC.url_contains("/youraccount"),
+                            EC.presence_of_element_located((By.ID, "nav-link-accountList"))
                         )
-                    except Exception as e:
-                        logger.error(f"Could not find continue button: {str(e)}")
-                        print("Could not find continue button")
-                        raise
-                        
-                enter_button.click()
-                
-                # Wait for password field
+                    )
+                    login_ok = True
+                except TimeoutException:
+                    login_ok = False
+
+                # Detect possible CAPTCHA / 2FA page
+                page_text = driver.page_source.lower()
+                if any(keyword in page_text for keyword in ["captcha", "type the characters", "auth-mfa"]):
+                    logger.info("⚠️ Detected CAPTCHA or 2FA challenge.")
+                    print("⚠️ Detected CAPTCHA or 2FA challenge.")
+                    input("Please complete it manually in the browser, then press Enter to continue...")
+
+                elif not login_ok:
+                    logger.warning("⚠️ Login not confirmed, continuing anyway...")
+                    print("⚠️ Login not confirmed, continuing anyway...")
+
+            except Exception as e:
+                logger.warning(f"⚠️ Login flow skipped or failed: {e}")
+                print(f"⚠️ Login flow skipped or failed: {e}")
+
+            # ---------------- POST-LOGIN NAVIGATION ---------------- #
+            logger.info("Navigating to target URL...")
+            print("Navigating to target URL...")
+            try:
                 try:
-                    password_input = WebDriverWait(driver, 10).until(
-                        EC.presence_of_element_located((By.ID, "ap_password"))
-                    )
-                    password_input.send_keys(self._password)
-                    
-                    sign_in_button = WebDriverWait(driver, 10).until(
-                        EC.element_to_be_clickable((By.ID, "signInSubmit"))
-                    )
-                    sign_in_button.click()
-                    logger.info("Login credentials submitted")
-                except Exception as e:
-                    logger.error(f"Error during login: {str(e)}")
-                    print(f"Error during login: {str(e)}")
-                    # Continue anyway, we might still be able to access reviews
-            
-            page_count = 1
-            max_pages = 10  # Maximum number of pages to scrape
-            
-            # Continue until we reach target_reviews or max_pages
-            while len(reviews) < target_reviews and page_count <= max_pages:
-                logger.info(f"Scraping page {page_count}...")
-                print(f"Scraping page {page_count}...")
-                
-                # Wait for reviews to load
-                time.sleep(5)  # Give more time for page to load
-                
-                # Save the page source for debugging
-                with open(f'reviews_page_{page_count}.html', 'w', encoding='utf-8') as f:
+                    driver.get(url)
+                except TimeoutException:
+                    logger.warning("Timeout on driver.get(); using JS fallback navigation.")
+                    print("Timeout on driver.get(); using JS fallback navigation.")
+                    driver.execute_script("window.location.href = arguments[0];", url)
+                    time.sleep(2)
+            except Exception as e:
+                logger.error(f"Navigation error: {e}")
+                print(f"Navigation error: {e}")
+                driver.execute_script("window.location.href = arguments[0];", url)
+                time.sleep(2)
+
+            # Click reviews again after login
+            try:
+                WebDriverWait(driver, 20).until(
+                    EC.element_to_be_clickable((By.XPATH, '//*[@id="reviews-medley-footer"]/div[2]/a'))
+                ).click()
+            except Exception as e:
+                logger.warning(f"⚠️ Couldn't click reviews link after login: {e}")
+                print(f"⚠️ Couldn't click reviews link after login: {e}")
+
+            # ---------------- SCRAPING SECTION ---------------- #
+            pages_to_scrape = target_reviews // 10 + 1  # Approximate pages needed (10 reviews per page)
+            for page_num in range(pages_to_scrape):
+                self._random_sleep(1, 2)
+
+                soup = BeautifulSoup(driver.page_source, "html.parser")
+                with open("amazon_reviews_page.txt", "w", encoding="utf-8") as f:
                     f.write(driver.page_source)
+
+                titles = soup.find_all("a", {"data-hook": "review-title"})
+                bodies = soup.find_all("span", {"data-hook": "review-body"})
+                stars = soup.find_all("span", class_="a-icon-alt")
+
+                logger.info(f"Scraping page {page_num + 1}... Found {len(bodies)} reviews")
+                print(f"Scraping page {page_num + 1}... Found {len(bodies)} reviews")
+
+                for i in range(min(len(titles), len(bodies))):
+                    review_titles.append(titles[i].text.strip())
+                    reviews.append(bodies[i].text.strip())
+                    ratings.append(stars[i].text.strip() if i < len(stars) else "")
+                    
+                    # Stop if we've reached target
+                    if len(reviews) >= target_reviews:
+                        logger.info(f"✅ Reached target of {target_reviews} reviews.")
+                        print(f"✅ Reached target of {target_reviews} reviews.")
+                        break
                 
-                tables = driver.page_source
-                
-                soup = BeautifulSoup(tables, 'html.parser')
-                ret_bodies = soup.find_all('span', {'data-hook': 'review-body'})
-                ret_titles = soup.find_all('a', {'data-hook': 'review-title'})
-                
-                # Try alternative selectors if nothing found
-                if not ret_bodies:
-                    ret_bodies = soup.find_all('div', {'class': 'review-text'})
-                if not ret_titles:
-                    ret_titles = soup.find_all('a', {'class': 'review-title'})
-                
-                # Rating might have different selectors
-                ret_ratings = soup.find_all('span', class_='a-icon-alt')
-                if not ret_ratings:
-                    ret_ratings = soup.find_all('i', {'data-hook': 'review-star-rating'})
-                
-                logger.info(f"Found {len(ret_bodies)} reviews on this page")
-                print(f"Found {len(ret_bodies)} reviews on this page")
-                
-                # Process found reviews up to target_reviews
-                for i in range(min(len(ret_bodies), min(len(ret_titles), target_reviews - len(reviews)))):
-                    try:
-                        review_titles.append(ret_titles[i].text.strip())
-                        reviews.append(ret_bodies[i].text.strip())
-                        
-                        # Handle ratings carefully
-                        if i < len(ret_ratings):
-                            rating_text = ret_ratings[i].text.strip()
-                            ratings.append(rating_text)
-                        else:
-                            # Default rating if not found
-                            ratings.append("Not specified")
-                    except Exception as e:
-                        logger.error(f"Error parsing review {i}: {str(e)}")
-                
-                # Stop if we've reached our target
+                # Check if we have enough reviews
                 if len(reviews) >= target_reviews:
-                    logger.info(f"✅ Reached target of {target_reviews} reviews.")
-                    print(f"✅ Reached target of {target_reviews} reviews.")
                     break
-                    
-                # Try to go to next page
+
+                # Go to next page if exists
                 try:
-                    logger.info("Looking for next page button...")
-                    print("Looking for next page button...")
-                    
-                    # Try multiple selectors for the next button
-                    try:
-                        next_button = WebDriverWait(driver, 10).until(
-                            EC.element_to_be_clickable((By.CSS_SELECTOR, "li.a-last a"))
-                        )
-                    except:
-                        try:
-                            next_button = WebDriverWait(driver, 10).until(
-                                EC.element_to_be_clickable((By.XPATH, '//a[contains(text(), "Next page")]'))
-                            )
-                        except:
-                            try:
-                                # Try another common Amazon pagination pattern
-                                next_button = WebDriverWait(driver, 10).until(
-                                    EC.element_to_be_clickable((By.XPATH, '//span[contains(@class, "s-pagination-next")]'))
-                                )
-                            except Exception as e:
-                                logger.warning(f"No next page button found: {str(e)}")
-                                print("No more pages available")
-                                break
-                    
-                    next_button.click()
-                    page_count += 1
-                    time.sleep(3)  # Longer pause after clicking for page load
-                except Exception as e:
-                    logger.warning(f"Failed to navigate to next page: {str(e)}")
-                    print(f"No more pages available: {str(e)}")
+                    next_btn = WebDriverWait(driver, 10).until(
+                        EC.element_to_be_clickable((
+                            By.XPATH,
+                            '//li[@class="a-last"]/a'
+                        ))
+                    )
+                    self._random_sleep(0.5, 1.0)
+                    next_btn.click()
+                except Exception:
+                    logger.info("No more pages found or next button not clickable.")
+                    print("No more pages found or next button not clickable.")
                     break
-                    
-            logger.info(f"Scraping complete. Retrieved {len(reviews)} reviews.")
-            print(f"Scraping complete. Retrieved {len(reviews)} reviews.")
+
+            logger.info(f"✅ Scraping completed successfully! Retrieved {len(reviews)} reviews.")
+            print(f"✅ Scraping completed successfully! Retrieved {len(reviews)} reviews.")
             
         except Exception as e:
-            logger.error(f"Error during scraping: {str(e)}", exc_info=True)
-            print(f"Error during scraping: {str(e)}")
+            logger.error(f"❌ Error during scraping: {e}", exc_info=True)
+            print(f"❌ Error during scraping: {e}")
             raise
         finally:
-            driver.quit()
+            # Properly close the driver to avoid handle errors
+            try:
+                if driver:
+                    # Close browser windows first
+                    driver.close()
+                    # Stop the ChromeDriver service
+                    if hasattr(driver, 'service') and driver.service:
+                        driver.service.stop()
+                    # Finally quit
+                    driver.quit()
+            except (OSError, Exception) as e:
+                # Suppress the WinError 6 handle error - it's harmless
+                if "WinError 6" not in str(e) and "handle is invalid" not in str(e):
+                    logger.error(f"⚠️ Error closing driver: {e}")
+                    print(f"⚠️ Error closing driver: {e}")
+                pass
         
         # Limit to target_reviews in case we got more
         return review_titles[:target_reviews], reviews[:target_reviews], ratings[:target_reviews]
 
     def _setup_driver(self):
-        """Set up the Selenium WebDriver with appropriate options"""
-        chrome_options = Options()
-        chrome_options.add_argument('--disable-gpu')
-        chrome_options.add_argument('--disable-dev-shm-usage')
-        chrome_options.add_argument('--no-sandbox')
-        chrome_options.add_argument('--log-level=3')  # Minimize logging
-        
-        # Add user agent to avoid bot detection
-        chrome_options.add_argument('--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36')
-        
-        chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
-        chrome_options.add_experimental_option('useAutomationExtension', False)
-        prefs = {
-            "credentials_enable_service": False,         # Disables the password manager
-            "profile.password_manager_enabled": False    # Disables the password manager UI
-        }
-        chrome_options.add_experimental_option("prefs", prefs)
-        
-        return webdriver.Chrome(options=chrome_options)
+        """Set up undetected ChromeDriver with minimal automation fingerprints."""
+        options = uc.ChromeOptions()
+        options.add_argument("--start-maximized")
+        options.add_argument("--disable-blink-features=AutomationControlled")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--disable-gpu")
+        options.add_experimental_option("prefs", {
+            "credentials_enable_service": False,
+            "profile.password_manager_enabled": False,
+        })
+
+        # Optional: persistent session (keeps you logged in between runs)
+        # options.user_data_dir = os.path.join(os.getcwd(), "chrome_profile")
+
+        driver = uc.Chrome(options=options)
+        driver.implicitly_wait(2)
+        driver.set_page_load_timeout(20)
+        return driver
 
     def _save_to_csv(self, titles, reviews, ratings, product_name="Amazon Product"):
         """Save reviews to CSV in format compatible with preprocessing.ipynb"""

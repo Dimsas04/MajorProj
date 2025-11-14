@@ -44,13 +44,32 @@ export const revifyAPI = {
     }
   },
 
-  // Start product analysis
-  startAnalysis: async (productUrl, productName = '') => {
+  // Extract features only (new endpoint)
+  extractFeatures: async (productUrl) => {
     try {
-      const response = await api.post('/analyze', {
+      const response = await api.post('/extract-features', {
+        product_url: productUrl
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response?.data?.error || 'Failed to extract features');
+    }
+  },
+
+  // Start product analysis with optional selected features
+  startAnalysis: async (productUrl, productName = '', selectedFeatures = null) => {
+    try {
+      const payload = {
         product_url: productUrl,
         product_name: productName
-      });
+      };
+      
+      // Only include selected_features if provided
+      if (selectedFeatures && selectedFeatures.length > 0) {
+        payload.selected_features = selectedFeatures;
+      }
+      
+      const response = await api.post('/analyze', payload);
       return response.data;
     } catch (error) {
       if (error.response?.status === 409) {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
   MagnifyingGlassIcon,
@@ -8,11 +8,28 @@ import {
   SparklesIcon,
   CheckCircleIcon,
   ExclamationTriangleIcon,
-  ArrowPathIcon
+  ArrowPathIcon,
+  ArrowRightIcon,
+  ArrowLeftIcon
 } from '@heroicons/react/24/outline';
+import { CheckCircleIcon as CheckCircleSolid } from '@heroicons/react/24/solid';
 import { revifyAPI } from '../services/api';
 
 const Analysis = () => {
+  // Flow state
+  const [currentStep, setCurrentStep] = useState('input'); // 'input', 'features', 'analyzing'
+  
+  // Form state
+  const [productUrl, setProductUrl] = useState('');
+  const [productName, setProductName] = useState('');
+  
+  // Feature extraction state
+  const [extracting, setExtracting] = useState(false);
+  const [extractError, setExtractError] = useState(null);
+  const [extractedFeatures, setExtractedFeatures] = useState([]);
+  const [selectedFeatures, setSelectedFeatures] = useState(new Set());
+  
+  // Analysis state
   const [status, setStatus] = useState({
     is_running: false,
     progress: 0,
@@ -25,17 +42,97 @@ const Analysis = () => {
   
   const location = useLocation();
   const navigate = useNavigate();
-  
-  const productUrl = location.state?.productUrl || '';
-  const productName = location.state?.productName || 'Product Analysis';
 
+  // Initialize from location state if coming from Home page
   useEffect(() => {
-    if (!productUrl) {
-      navigate('/');
+    if (location.state?.productUrl) {
+      setProductUrl(location.state.productUrl);
+      setProductName(location.state.productName || '');
+      // Don't auto-start - let user click "Extract Features" button
+    }
+  }, []);
+
+  // Step 1: Handle feature extraction
+  const handleExtractFeatures = async (e, urlOverride = null) => {
+    if (e) e.preventDefault();
+    const url = urlOverride || productUrl;
+    if (!url.trim()) return;
+    
+    setExtracting(true);
+    setExtractError(null);
+    
+    try {
+      const response = await revifyAPI.extractFeatures(url);
+      
+      setExtractedFeatures(response.features);
+      // Select all features by default
+      setSelectedFeatures(new Set(response.features));
+      setCurrentStep('features');
+    } catch (err) {
+      setExtractError(err.message);
+    } finally {
+      setExtracting(false);
+    }
+  };
+
+  // Step 2: Toggle feature selection
+  const toggleFeature = (feature) => {
+    const newSelected = new Set(selectedFeatures);
+    if (newSelected.has(feature)) {
+      newSelected.delete(feature);
+    } else {
+      newSelected.add(feature);
+    }
+    setSelectedFeatures(newSelected);
+  };
+
+  const toggleAllFeatures = () => {
+    if (selectedFeatures.size === extractedFeatures.length) {
+      setSelectedFeatures(new Set());
+    } else {
+      setSelectedFeatures(new Set(extractedFeatures));
+    }
+  };
+
+  // Step 3: Start analysis with selected features
+  const handleStartAnalysis = async () => {
+    if (selectedFeatures.size === 0) {
+      alert('Please select at least one feature to analyze');
       return;
     }
 
-    // Start polling for status updates
+    // Clear any old status/results before starting new analysis
+    setStatus({
+      is_running: false,
+      progress: 0,
+      current_phase: '',
+      error: null,
+      result: null,
+      start_time: null
+    });
+    setElapsedTime(0);
+
+    setCurrentStep('analyzing');
+    
+    try {
+      await revifyAPI.startAnalysis(
+        productUrl,
+        productName,
+        Array.from(selectedFeatures) // Pass selected features
+      );
+    } catch (err) {
+      setStatus(prev => ({
+        ...prev,
+        error: err.message,
+        is_running: false
+      }));
+    }
+  };
+
+  // Poll for analysis progress when in analyzing step
+  useEffect(() => {
+    if (currentStep !== 'analyzing') return;
+    
     const pollStatus = async () => {
       try {
         const statusData = await revifyAPI.getAnalysisStatus();
@@ -76,7 +173,7 @@ const Analysis = () => {
     const interval = setInterval(pollStatus, 2000);
 
     return () => clearInterval(interval);
-  }, [productUrl, navigate]);
+  }, [currentStep, productUrl, productName, navigate]);
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -129,15 +226,236 @@ const Analysis = () => {
     }
   ];
 
-  const getCurrentStep = () => {
+  const getCurrentProgressStep = () => {
     return analysisSteps.find(step => 
       status.progress >= step.range[0] && status.progress < step.range[1]
     ) || analysisSteps[0];
   };
 
-  const currentStep = getCurrentStep();
+  const progressStep = getCurrentProgressStep();
   const PhaseIcon = getPhaseIcon(status.current_phase);
 
+  // Step 1: URL Input Form
+  if (currentStep === 'input') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="w-full max-w-2xl"
+        >
+          <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl p-8 md:p-12">
+            <div className="text-center mb-8">
+              <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+                Start Your Analysis
+              </h1>
+              <p className="text-gray-600 text-lg">
+                Enter the Amazon product URL to begin analyzing customer reviews
+              </p>
+            </div>
+
+            <form onSubmit={handleExtractFeatures} className="space-y-6">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Product URL *
+                </label>
+                <input
+                  type="url"
+                  value={productUrl}
+                  onChange={(e) => setProductUrl(e.target.value)}
+                  placeholder="https://www.amazon.in/product-name/dp/B0XXXXXXXX"
+                  required
+                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-300 focus:border-blue-500 focus:outline-none transition-colors"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Product Name (Optional)
+                </label>
+                <input
+                  type="text"
+                  value={productName}
+                  onChange={(e) => setProductName(e.target.value)}
+                  placeholder="e.g., Wireless Headphones"
+                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-300 focus:border-blue-500 focus:outline-none transition-colors"
+                />
+              </div>
+
+              {extractError && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="p-4 bg-red-50 border-2 border-red-200 rounded-xl flex items-start gap-3"
+                >
+                  <ExclamationTriangleIcon className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                  <p className="text-red-700 text-sm">{extractError}</p>
+                </motion.div>
+              )}
+
+              <button
+                type="submit"
+                disabled={extracting || !productUrl.trim()}
+                className="w-full py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] flex items-center justify-center gap-2"
+              >
+                {extracting ? (
+                  <>
+                    <ArrowPathIcon className="w-5 h-5 animate-spin" />
+                    Extracting Features...
+                  </>
+                ) : (
+                  <>
+                    Extract Features
+                    <ArrowRightIcon className="w-5 h-5" />
+                  </>
+                )}
+              </button>
+            </form>
+
+            <div className="mt-6 p-4 bg-blue-50 rounded-xl">
+              <p className="text-sm text-blue-800">
+                💡 <strong>Tip:</strong> We'll first extract the key features from this product, 
+                then you can choose which ones to analyze in detail.
+              </p>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
+
+  // Step 2: Feature Selection
+  if (currentStep === 'features') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12 px-4">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-8"
+          >
+            <h2 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-3">
+              Select Features to Analyze
+            </h2>
+            <p className="text-gray-600 text-lg">
+              We found <span className="font-semibold text-blue-600">{extractedFeatures.length} features</span>. 
+              Choose which ones you'd like to analyze in detail.
+            </p>
+          </motion.div>
+
+          {/* Selection Controls */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-6 mb-6"
+          >
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={toggleAllFeatures}
+                  className="px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg hover:shadow-lg transition-all"
+                >
+                  {selectedFeatures.size === extractedFeatures.length ? 'Deselect All' : 'Select All'}
+                </button>
+                <span className="text-gray-600">
+                  <span className="font-semibold text-blue-600">{selectedFeatures.size}</span> of {extractedFeatures.length} selected
+                </span>
+              </div>
+              
+              <button
+                onClick={() => setCurrentStep('input')}
+                className="px-6 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg transition-colors flex items-center gap-2"
+              >
+                <ArrowLeftIcon className="w-4 h-4" />
+                Back to URL
+              </button>
+            </div>
+          </motion.div>
+
+          {/* Feature Grid */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="grid grid-cols-1 md:grid-cols-2 gap-4"
+          >
+            <AnimatePresence>
+              {extractedFeatures.map((feature, index) => {
+                const isSelected = selectedFeatures.has(feature);
+                return (
+                  <motion.div
+                    key={feature}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ delay: index * 0.05 }}
+                    onClick={() => toggleFeature(feature)}
+                    className={`
+                      relative cursor-pointer p-6 rounded-xl border-2 transition-all duration-300
+                      ${isSelected 
+                        ? 'bg-gradient-to-br from-blue-50 to-purple-50 border-blue-400 shadow-lg' 
+                        : 'bg-white border-gray-200 hover:border-gray-300 hover:shadow-md'
+                      }
+                    `}
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className="flex-shrink-0 mt-1">
+                        {isSelected ? (
+                          <CheckCircleSolid className="w-6 h-6 text-blue-600" />
+                        ) : (
+                          <div className="w-6 h-6 rounded-full border-2 border-gray-400" />
+                        )}
+                      </div>
+                      <div className="flex-1">
+                        <h3 className={`font-semibold text-lg ${isSelected ? 'text-blue-900' : 'text-gray-800'}`}>
+                          {feature}
+                        </h3>
+                      </div>
+                    </div>
+
+                    {isSelected && (
+                      <motion.div
+                        layoutId={`selected-${feature}`}
+                        className="absolute inset-0 bg-blue-400/10 rounded-xl pointer-events-none"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                      />
+                    )}
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
+          </motion.div>
+
+          {/* Bottom Sticky Bar */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="mt-8 bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-6 sticky bottom-4"
+          >
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div className="text-sm text-gray-600">
+                💡 <strong>Tip:</strong> Selecting fewer features will speed up the analysis
+              </div>
+              <button
+                onClick={handleStartAnalysis}
+                disabled={selectedFeatures.size === 0}
+                className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 flex items-center justify-center gap-2"
+              >
+                Start Analysis ({selectedFeatures.size} Feature{selectedFeatures.size !== 1 ? 's' : ''})
+                <ArrowRightIcon className="w-5 h-5" />
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    );
+  }
+
+  // Step 3: Analysis Progress (existing code with minor tweaks)
   if (status.error) {
     return (
       <div className="min-h-screen flex items-center justify-center px-4">
@@ -213,8 +531,8 @@ const Analysis = () => {
             >
               <PhaseIcon className="h-10 w-10 text-white" />
             </motion.div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">{currentStep.title}</h2>
-            <p className="text-gray-600">{status.current_phase || currentStep.description}</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">{progressStep.title}</h2>
+            <p className="text-gray-600">{status.current_phase || progressStep.description}</p>
           </div>
 
           {/* Progress Bar */}
