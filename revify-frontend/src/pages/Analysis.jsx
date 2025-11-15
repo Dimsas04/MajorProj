@@ -28,6 +28,7 @@ const Analysis = () => {
   const [extractError, setExtractError] = useState(null);
   const [extractedFeatures, setExtractedFeatures] = useState([]);
   const [selectedFeatures, setSelectedFeatures] = useState(new Set());
+  const [reviewsReady, setReviewsReady] = useState(false);
   
   // Analysis state
   const [status, setStatus] = useState({
@@ -62,15 +63,48 @@ const Analysis = () => {
     setExtractError(null);
     
     try {
-      const response = await revifyAPI.extractFeatures(url);
+      // Start async feature extraction
+      await revifyAPI.extractFeatures(url, productName);
       
-      setExtractedFeatures(response.features);
-      // Select all features by default
-      setSelectedFeatures(new Set(response.features));
-      setCurrentStep('features');
+      let featuresSet = false; // Track if we've already set features
+      
+      // Poll for completion
+      const pollInterval = setInterval(async () => {
+        try {
+          const statusResponse = await revifyAPI.getFeatureStatus();
+          
+          if (statusResponse.error) {
+            setExtractError(statusResponse.error);
+            setExtracting(false);
+            clearInterval(pollInterval);
+            return;
+          }
+          
+          // Show features as soon as they're ready (even if reviews still scraping)
+          if (statusResponse.completed && statusResponse.features && !featuresSet) {
+            // Set features ONLY ONCE
+            setExtractedFeatures(statusResponse.features);
+            setSelectedFeatures(new Set(statusResponse.features));
+            setCurrentStep('features');
+            setExtracting(false);
+            featuresSet = true; // Mark as set
+          }
+          
+          // Update reviews_ready status independently (doesn't affect selection)
+          if (statusResponse.reviews_ready !== undefined) {
+            setReviewsReady(statusResponse.reviews_ready);
+            
+            if (statusResponse.reviews_ready) {
+              clearInterval(pollInterval);
+            }
+          }
+        } catch (pollError) {
+          console.error('Polling error:', pollError);
+        }
+      }, 2000); // Poll every 2 seconds
+      
     } catch (err) {
       setExtractError(err.message);
-    } finally {
       setExtracting(false);
     }
   };
@@ -301,7 +335,7 @@ const Analysis = () => {
                 {extracting ? (
                   <>
                     <ArrowPathIcon className="w-5 h-5 animate-spin" />
-                    Extracting Features...
+                    Extracting Features and Reviews....
                   </>
                 ) : (
                   <>
@@ -342,6 +376,36 @@ const Analysis = () => {
               Choose which ones you'd like to analyze in detail.
             </p>
           </motion.div>
+
+          {/* Reviews Status Banner */}
+          {!reviewsReady && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded-lg"
+            >
+              <div className="flex items-center gap-3">
+                <ArrowPathIcon className="w-5 h-5 text-blue-600 animate-spin" />
+                <div>
+                  <p className="text-blue-800 font-medium">Reviews are being collected in the background</p>
+                  <p className="text-blue-600 text-sm">Feel free to select your features while we gather customer feedback</p>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {reviewsReady && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="bg-green-50 border-l-4 border-green-500 p-4 mb-6 rounded-lg"
+            >
+              <div className="flex items-center gap-3">
+                <CheckCircleIcon className="w-5 h-5 text-green-600" />
+                <p className="text-green-800 font-medium">Reviews ready! You can start the analysis whenever you're ready.</p>
+              </div>
+            </motion.div>
+          )}
 
           {/* Selection Controls */}
           <motion.div
@@ -438,15 +502,28 @@ const Analysis = () => {
           >
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div className="text-sm text-gray-600">
-                💡 <strong>Tip:</strong> Selecting fewer features will speed up the analysis
+                {!reviewsReady ? (
+                  <>⏳ <strong>Meanwhile:</strong> Select the features you want to focus on while reviews are being collected</>
+                ) : (
+                  <>💡 <strong>Tip:</strong> Selecting fewer features will speed up the analysis</>
+                )}
               </div>
               <button
                 onClick={handleStartAnalysis}
-                disabled={selectedFeatures.size === 0}
+                disabled={selectedFeatures.size === 0 || !reviewsReady}
                 className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 flex items-center justify-center gap-2"
               >
-                Start Analysis ({selectedFeatures.size} Feature{selectedFeatures.size !== 1 ? 's' : ''})
-                <ArrowRightIcon className="w-5 h-5" />
+                {!reviewsReady ? (
+                  <>
+                    <ArrowPathIcon className="w-5 h-5 animate-spin" />
+                    Preparing reviews...
+                  </>
+                ) : (
+                  <>
+                    Start Analysis ({selectedFeatures.size} Feature{selectedFeatures.size !== 1 ? 's' : ''})
+                    <ArrowRightIcon className="w-5 h-5" />
+                  </>
+                )}
               </button>
             </div>
           </motion.div>

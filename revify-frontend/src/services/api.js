@@ -44,15 +44,26 @@ export const revifyAPI = {
     }
   },
 
-  // Extract features only (new endpoint)
-  extractFeatures: async (productUrl) => {
+  // Extract features only (new endpoint - async, starts background task)
+  extractFeatures: async (productUrl, productName = '') => {
     try {
       const response = await api.post('/extract-features', {
-        product_url: productUrl
+        product_url: productUrl,
+        product_name: productName
       });
       return response.data;
     } catch (error) {
       throw new Error(error.response?.data?.error || 'Failed to extract features');
+    }
+  },
+
+  // Get feature extraction status (for polling)
+  getFeatureStatus: async () => {
+    try {
+      const response = await api.get('/feature-status');
+      return response.data;
+    } catch (error) {
+      throw new Error('Failed to get feature extraction status');
     }
   },
 
